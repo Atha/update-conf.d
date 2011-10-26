@@ -1,0 +1,100 @@
+INSTALLATION
+============
+
+Run the following commands while in this directory:
+1) make build
+   this will also copy your system fstab
+2) make install
+   this will
+   a) create /etc/fstab.d/00fstab (your system fstab)
+   b) copy update-conf.d to /usr/local/sbin
+   c) create /etc/update-conf.d.conf with fstab as its only entry
+
+If you want to be safe and test the installation, add a PREFIX directory to the
+Makefile, like /tmp. You can test the installation from there. Note: you can do
+this as a regular user, provided you have write access to the PREFIX directory.
+
+You need to have write access to /etc and /usr/local/sbin in order to perform an
+unprefixed installation. Login as root to perform a system wide installation.
+
+BE CAREFUL AND USE THIS SCRIPT AT YOUR OWN RISK!
+
+
+UNINSTALLATION
+==============
+
+1) make uninstall
+   this will remove /usr/local/sbin/update-conf.d from your system
+
+However, your configuration directories, like /etc/fstab.d, will remain! You are
+encouraged to edit your files manually to maintain a suitable and working
+configuration.
+Also, the configuration file /etc/update-conf.d.conf will remain. You may delete
+it, if it is no longer of use.
+
+
+USAGE
+=====
+
+Using "make install" will result in a working installation for /etc/fstab.d: you
+will see the file /etc/fstab.d/00fstab. You can now start to modulize your fstab
+configuration.
+
+In /etc/fstab.d, create files that start with two digits, like 01base and
+02pseudo, that contain parts of your original /etc/fstab. You can easily add
+files, like 10windows, 61nfs-nas or 99temporary.
+
+The second step is to make sure that "fstab" is in your /etc/update-conf.d.conf
+configuration file. Type:
+  cat /etc/update-conf.d.conf
+
+You should now get a list of names. After the installation, this is normally
+only "fstab".
+
+Now you can run the script, type:
+  update-conf.d fstab
+
+--BEGIN-- SAMPLE OUTPUT --BEGIN--
+fstab
+/etc/fstab.d/fstab created, header added
+Added: /tmp/etc/fstab.d/00fstab
+Existing /etc/fstab renamed to /etc/fstab.d.bak
+New configuration file /etc/fstab.d/fstab moved to /etc/fstab
+--END-- SAMPLE OUTPUT --END--
+
+You can see that your new /etc/fstab contains only lines that are usable by the
+system. Empty lines and comments were removed.
+
+To add a new <conf>.d entry, simply type:
+  echo <conf> >> /etc/update-conf.d.conf
+or edit the file with your favorite editor.
+
+Example:
+  mkdir /etc/hosts.d
+  cp /etc/hosts /etc/hosts.d/00hosts
+  echo hosts >> /etc/update-conf.d.conf
+
+Now edit some files in /etc/hosts.d:
+  cd /etc/hosts.d
+  cp 00hosts 01loopback
+  cp 00hosts 02local
+  cp 00hosts 10wins
+  cp 00hosts 20apple
+  cp 00hosts 61vpn
+  cp 00hosts 99temporary
+
+Edit these files so they only contain what the name suggests and so you don't
+have any doubles.
+Rename 00hosts:
+  mv 00hosts hosts-backup
+NOTE: Filenames that don't start with two digits, like hosts-backup, will not be
+processed by the script. Since all your configuration for /etc/hosts should now
+be in seperate files (01loopback to 99temporary) you will have all your
+configuration lines available in the resulting /etc/hosts after running the
+script.
+
+Run the script:
+  update-conf.d hosts
+
+
+2011-10-26, Atha
