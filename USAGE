@@ -1,6 +1,10 @@
 INSTALLATION
 ============
 
+Download it from GitHub:
+  git clone git://github.com/Atha/update-conf.d.git
+  cd update-conf.d
+
 Run the following commands while in this directory:
 1) make build
    this will also copy your system fstab
