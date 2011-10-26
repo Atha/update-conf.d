@@ -1,5 +1,6 @@
 * 2011-10-26
   - released at GitHub
+  - cosmetic changes to update-fstab
 
 * 2011-06-11
   - NicoLarve releases improved version for various <conf>.d files: update-conf.d
