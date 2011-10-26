@@ -1,21 +1,21 @@
-In January 2008 I wrote a very simple script to manage fstab entries in the way
-like environment variables in /etc/env.d are managed. For this I created
+In January 2008 Atha wrote a very simple script to manage fstab entries in the
+way like environment variables in /etc/env.d are managed. For this Atha created
 separated fstab files in /etc/fstab.d and wrote a script called update-fstab
-(that I would recommend going into /usr/local/bin).
+(located in /usr/local/bin).
 
-I then released it in 2010 on the Gentoo Forum in the hope that it would be
+Atha then released it in 2010 on the Gentoo Forum in the hope that it would be
 useful to anyone. http://forums.gentoo.org/viewtopic.php?p=6364143
 
 Since then a few people have made enhancements, and the script is now even able
 to handle any <conf>.d directory in the same way.
 
 Note:
-1) update-fstab - handles only /etc/fstab.d
-2) update-conf.d - requires configuration file /etc/update-conf.d.conf
+1) update-fstab - depricated, handles only /etc/fstab.d
+2) update-conf.d - handles all in /etc/update-conf.d.conf
 
 It is released under the terms of the General Public License version 2 (GPL-2)
 or higher.
 
 If you want to contribute: every improvement, fix, patch is welcome!
 
-2011-10-26
+2011-10-26, Atha
