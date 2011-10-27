@@ -46,32 +46,23 @@ Usage
 snippets. *Examples:* fstab, hosts
 
 * **Copy existing configuration**
-
   Copy it to a (newly created) *.d*'ed directory:
-
         > cd /etc
         > mkdir <conf>.d
         > cp <conf> <conf>.d/00joint
-
   *Example:* If your ``<conf>`` is fstab, you will now have /etc/fstab.d/00joint
 
 * **Add *.d*'ed directory to _/etc/update-conf.d.conf_**
-
         > echo <conf> >> /etc/update-conf.d.conf
-
   You may use your favorite text editor to add/delete entries and manage
   */etc/update-conf.d.conf*.
 
 * **Test**
-
   This will take all files in */etc/``<conf>``.d/* that **start with two
   digits** (^[0-9][0-9]), leave out *empty lines* and *comments ^[#]* and make a
   new */etc/``<conf>``* with  this information.
-
         > update-conf.d <conf>
-
   Example:
-
         > update-conf.d fstab
 
 * **Configure snippets**
@@ -141,9 +132,11 @@ Please, feel free to point out any error. Improvements, fixes and patched are hi
 Copyright and license
 ---------------------
 
-Copyright © 2011 Nicolas Bercher 
-Copyright © 2010 truc (on improvements) 
-Copyright © 2008, 2010 Atha 
+Copyright © 2011 Nicolas Bercher
+
+Copyright © 2010 truc (on improvements)
+
+Copyright © 2008, 2010 Atha
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your option) any later version.
 It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.

@@ -8,7 +8,7 @@
 * Makefile added for easier installation
 
 ## 2011-06-11
-* NicoLarve releases improved version update-conf.d for various ``<conf>``.d files
+* NicoLarve releases improved version update-conf.d for various `<conf>`.d files
 
 ## 2010-08-14 
 * improved version, thanks to truc
@@ -18,4 +18,4 @@
 * the Gentoo forum advocate truc immediately helped to improve the script - big thanks!
 
 ## 2008-01-20
-* initial version of `update-fstab` finished (unreleased, used by Atha)
+* initial version of update-fstab finished (unreleased, used by Atha)
