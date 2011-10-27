@@ -88,8 +88,7 @@ Concept
 
    * For one, you may like a **modular configuration** basis. You can have
      individually columned configuration files that would normally only make your
-     joint configuration file harder to read.
-
+     joint configuration file harder to read. 
      Take *fstab* for example. Lines for *proc*, *sysfs*, *tmpfs*, *swap* may be
      have different column sizes than UUID based partitions or partitions assigned
      by path in */dev/disk/by-path/*, which require different columns than
@@ -142,9 +141,9 @@ Please, feel free to point out any error. Improvements, fixes and patched are hi
 Copyright and license
 ---------------------
 
-Copyright © 2011 Nicolas Bercher
-Copyright © 2010 truc (on improvements)
-Copyright © 2008, 2010 Atha
+Copyright © 2011 Nicolas Bercher 
+Copyright © 2010 truc (on improvements) 
+Copyright © 2008, 2010 Atha 
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your option) any later version.
 It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.

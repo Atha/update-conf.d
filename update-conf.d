@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# Version 2011-10-26
+#
 # Script for flexible /etc/*.d configuration
 # From Atha, with a lot of improvements from truc - thanks!
 # Generalized for /etc/*.d by Nicolas Bercher nbercher@yahoo.fr

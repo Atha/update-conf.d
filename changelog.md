@@ -1,3 +1,6 @@
+## 2011-10-27
+* version information (ISO date) added
+
 ## 2011-10-26
 * released at GitHub
 * cosmetic changes to update-fstab and update-conf.d 

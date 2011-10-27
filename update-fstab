@@ -1,4 +1,6 @@
 #!/bin/sh
+# Version 2011-10-26
+#
 # Script for flexible /etc/fstab.d configuration
 # From Atha, with a lot of improvements from truc - thanks!
 #
