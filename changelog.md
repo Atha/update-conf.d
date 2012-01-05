@@ -1,3 +1,6 @@
+## 2012-01-05
+* README updated
+
 ## 2011-10-27
 * version information (ISO date) added
 
@@ -10,7 +13,7 @@
 ## 2011-06-11
 * NicoLarve releases improved version update-conf.d for various `<conf>`.d files
 
-## 2010-08-14 
+## 2010-08-14
 * improved version, thanks to truc
 
 ## 2010-07-25
