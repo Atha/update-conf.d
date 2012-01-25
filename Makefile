@@ -18,11 +18,21 @@ install-update-fstab:
 	install -m 750 update-fstab $(INSTALLDIR)
 	install -m 644 00fstab $(FSTABDDIR)
 
-install:
-	install -d $(INSTALLDIR) $(CONFIGDIR)
+install-with-fstab:
+	install -d $(INSTALLDIR) $(CONFIGDIR) $(FSTABDDIR)
 	install -m 750 update-conf.d $(INSTALLDIR)
 	install -m 644 update-conf.d.conf $(CONFIGDIR)
 	install -m 644 00fstab $(FSTABDDIR)
+
+install:
+	install -d $(INSTALLDIR) $(CONFIGDIR)
+	install -m 750 update-conf.d $(INSTALLDIR)
+	-touch $(CONFIGDIR)/update-conf.d.conf
+	-chmod 644 $(CONFIGDIR)/update-conf.d.conf
+
+update:
+	install -d $(INSTALLDIR)
+	install -m 750 update-conf.d $(INSTALLDIR)
 
 uninstall-update-fstab:
 
@@ -33,4 +43,4 @@ uninstall:
 clean:
 	-rm -f update-conf.d 00fstab update-conf.d.conf *~
 
-.PHONY: build install uninstall clean
+.PHONY: build install install-with-fstab update uninstall clean
