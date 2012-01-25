@@ -1,3 +1,8 @@
+## 2012-01-25
+* Makefile updated: target "install" now only installs the script.
+* Makefile: target "install-with-fstab" added (old behaviour).
+* update-conf.d.in: reference to home of the script added (GitHub).
+
 ## 2012-01-05
 * README updated
 
