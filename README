@@ -32,11 +32,19 @@ Installation
 Run make.
 
     make build
-    make install
+    make install-with-fstab
 
 WARNING: this will overwrite the files /etc/update-conf.d.conf and
 /etc/fstab.d/00fstab! It will also overwrite any existing version of
 /usr/local/sbin/update-conf.d.
+
+If you prefere a clean (unconfigured) installation, run make like this:
+
+    make build
+    make install
+
+You will then have to manage /etc/update-conf.d.conf right after the
+installation, or update-conf.d will have no function.
 
 To uninstall, run make again.
 

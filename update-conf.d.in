@@ -3,22 +3,24 @@
 # Version 2011-10-26
 #
 # Script for flexible /etc/*.d configuration
-# From Atha, with a lot of improvements from truc - thanks!
+# Originally from Atha, with a lot of improvements from truc - thanks!
 # Generalized for /etc/*.d by Nicolas Bercher nbercher@yahoo.fr
+#
+# The included makefile assists easy installation: "make build ; make install"
 #
 # This script ideally goes into /usr/local/sbin and is called update-conf.d -
 # you need to configure your <conf> entries in separate files in /etc/<conf>.d;
 # only filenames starting with two digits are included!
-
+#
 # Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000, to name just two.
 #
 # Copyright 2011 Nicolas Bercher
-# Copyright for improvements 2010 truc
+# Copyright 2010 truc (for improvements)
 # Copyright 2008,2010 Atha
 # Distributed under the terms of the GNU General Public License v2 or later
 #
-# You can find information on how to use this script at
-# http://forums.gentoo.org/viewtopic.php?p=6364143
+# The home of this script is https://github.com/Atha/update-conf.d
+# It first appeared at http://forums.gentoo.org/viewtopic.php?p=6364143
 #
 
 
