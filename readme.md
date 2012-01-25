@@ -95,8 +95,8 @@ configuration file you want to process. *Examples:* fstab, hosts
   suit your needs. If you need examples for snippets and filenames, look at
   your */etc/env.d* directory. The original configuration file *00original* can
   then be deleted or renamed, like *A0original* or *.00original* or even
-  *``<conf>``-backup*, so it wont be included by the *update-conf.d* script.
-  Now re-run *update-conf.d ``<conf>``* to update */etc/``<conf>``*.
+  ``<conf>``*-backup*, so it wont be included by the *update-conf.d* script.
+  Now re-run *update-conf.d* ``<conf>`` to update */etc/*``<conf>``.
 
 Concept
 -------
@@ -119,26 +119,26 @@ Concept
 
 2. What other **positive effects** can I expect?
 
-   * Your */etc/<conf>* is now reproducable by running the *update-conf.d*
+   * Your */etc/*``<conf>`` is now reproducable by running the *update-conf.d*
      script. Accidentally deleting it or altering its contents doesn't destroy
      your whole configuration.
 
-   * You can experiment with *<conf>* by changing it, which will only be
+   * You can experiment with ``<conf>`` by changing it, which will only be
      temporary until you re-run *update-conf.d*.
 
    * You can easily disable a snippet by renaming it to not start with two
      digets. The script will then ignore it and thus it will not be included in
-     */etc/<conf>* when you run *update-conf.d*.
+     */etc/*``<conf>`` when you run *update-conf.d*.
 
-   * Applications or self written scripts cannot harm your *<conf>* file by
+   * Applications or self written scripts cannot harm your ``<conf>`` file by
      destroying it (accidentally).
 
 3. Are there any **negative effects**?
 
    * Yes.
 
-   * If you rely on applications to update your */etc/<conf>*, you must
-     manually add this update to your */etc/<conf>.d/00something* snippet.
+   * If you rely on applications to update your */etc/*``<conf>``, you must
+     manually add this update to your */etc/*``<conf>``*.d/00something* snippet.
      Otherwise it will be lost the next time you run *update-conf.d*. Some
      Linux distribtions update */etc/fstab* and */etc/hosts* (and possibly
      others) when the system configuration is changed.

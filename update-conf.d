@@ -15,7 +15,7 @@
 # Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000, to name just two.
 #
 # Copyright 2011 Nicolas Bercher
-# Copyright 2010 truc (for improvements)
+# Copyright 2010 truc (on improvements)
 # Copyright 2008,2010 Atha
 # Distributed under the terms of the GNU General Public License v2 or later
 #
