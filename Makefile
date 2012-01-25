@@ -3,7 +3,7 @@ CONFIGDIR=$(PREFIX)/etc
 FSTABDDIR=$(PREFIX)/etc/fstab.d
 INSTALLDIR=$(PREFIX)/usr/local/sbin
 
-build: system-fstab update-conf.d
+build: update-conf.d system-fstab
 
 system-fstab:
 	-cp $(CONFIGDIR)/fstab 00fstab
@@ -43,4 +43,4 @@ uninstall:
 clean:
 	-rm -f update-conf.d 00fstab update-conf.d.conf *~
 
-.PHONY: build install install-with-fstab update uninstall clean
+.PHONY: build update-cond.d install install-with-fstab update uninstall clean
