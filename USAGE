@@ -7,12 +7,24 @@ Download it from GitHub:
 
 Run the following commands while in this directory:
 1) make build
-   this will also copy your system fstab
 2) make install
+   this will
+   b) copy update-conf.d to /usr/local/sbin
+   c) create an empty /etc/update-conf.d.conf (or touch if should it already
+      exist)
+
+IF YOU WANT a pre-configuration with /etc/fstab.d, you can also try the
+following, but BE CAREFUL & USE AT YOUR OWN RISK:
+
+Run the following commands while in this directory:
+1) make build
+   this will also copy your system fstab
+2) make install-with-fstab
    this will
    a) create /etc/fstab.d/00fstab (your system fstab)
    b) copy update-conf.d to /usr/local/sbin
-   c) create /etc/update-conf.d.conf with fstab as its only entry
+   c) create /etc/update-conf.d.conf with fstab as its only entry (DANGER! This
+      will overwrite an existing version!)
 
 If you want to be safe and test the installation, add a PREFIX directory to the
 Makefile, like /tmp. You can test the installation from there. Note: you can do
@@ -40,9 +52,48 @@ it, if it is no longer of use.
 USAGE
 =====
 
-Using "make install" will result in a working installation for /etc/fstab.d: you
-will see the file /etc/fstab.d/00fstab. You can now start to modulize your fstab
-configuration.
+Running "make install" will install the script and you will have to modulize the
+file you want to have ".d-ed" by yourself.
+
+Start by copying the desired file to a .d-ed directory.
+
+This example assumes "/etc/hosts":
+
+  cd /etc
+  mkdir hosts.d
+  cp hosts hosts.d/00hosts
+  cd hosts.d
+
+Now add "hosts" to your /etc/update-conf.d.conf file:
+
+  echo "hosts" >> /etc/update-conf.d.conf
+
+You can now test-run your set-up:
+
+  update-conf.d hosts
+
+You should see a similar output of the script:
+
+--BEGIN-- SAMPLE OUTPUT --BEGIN--
+hosts
+/etc/hosts.d/hosts created, header added
+Added: /etc/hosts.d/00hosts
+Existing /etc/hosts renamed to /etc/hosts.d.bak
+New configuration file /etc/hosts.d/hosts moved to /etc/hosts
+--END-- SAMPLE OUTPUT --END--
+
+Now it is time to modulize /etc/hosts.d/00hosts. You can have up to 100 seperate
+configuration snippets for /etc/hosts, namely 00something to 99something. Any
+other files will be ignored. Once you have finished, remove the original
+00hosts or rename it, like .00hosts or hosts-original.
+
+
+USAGE "install-with-fstab"
+==========================
+
+Using "make install-with-fstab" will result in a working installation for
+/etc/fstab.d: you will see the file /etc/fstab.d/00fstab. You can now start to
+modulize your fstab configuration.
 
 In /etc/fstab.d, create files that start with two digits, like 01base and
 02pseudo, that contain parts of your original /etc/fstab. You can easily add
@@ -61,7 +112,7 @@ Now you can run the script, type:
 --BEGIN-- SAMPLE OUTPUT --BEGIN--
 fstab
 /etc/fstab.d/fstab created, header added
-Added: /tmp/etc/fstab.d/00fstab
+Added: /etc/fstab.d/00fstab
 Existing /etc/fstab renamed to /etc/fstab.d.bak
 New configuration file /etc/fstab.d/fstab moved to /etc/fstab
 --END-- SAMPLE OUTPUT --END--
