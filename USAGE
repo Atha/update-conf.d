@@ -10,7 +10,7 @@ Run the following commands while in this directory:
 2) make install
    this will
    b) copy update-conf.d to /usr/local/sbin
-   c) create an empty /etc/update-conf.d.conf (or touch if should it already
+   c) create an empty /etc/update-conf.d.conf (or touch if it should already
       exist)
 
 IF YOU WANT a pre-configuration with /etc/fstab.d, you can also try the
