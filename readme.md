@@ -95,13 +95,13 @@ configuration file you want to process. *Examples:* fstab, hosts
   suit your needs. If you need examples for snippets and filenames, look at
   your */etc/env.d* directory. The original configuration file *00original* can
   then be deleted or renamed, like *A0original* or *.00original* or even
-  ``<conf>``*-backup*, so it wont be included by the *update-conf.d* script.
+  ``<conf>``*-backup*, so it won't be included by the *update-conf.d* script.
   Now re-run *update-conf.d* ``<conf>`` to update */etc/*``<conf>``.
 
 Concept
 -------
-1. **Why** would you want to split a configuration file into snippets?
 
+1. **Why** would you want to split a configuration file into snippets?
    * For one, you may like a **modular configuration** basis. You can have
      individually columned configuration files that would normally only make
      your single (original) configuration file harder to read.  
@@ -111,36 +111,27 @@ Concept
      than partitions assigned like */dev/sda1*. Now you can have seperate
      files for that, each with an individual ``# comment`` line for the
      columns, making each file very easy to read and edit.
-
    * You can use **different sources for each snippet**. For example, you could
      share a snippet over the network, to have multiple installations updated
      at the same time. All you have to do is make sure the *update-conf.d*
      script is run after syncronizing it, and you're done.
-
 2. What other **positive effects** can I expect?
-
    * Your */etc/*``<conf>`` is now reproducable by running the *update-conf.d*
      script. Accidentally deleting it or altering its contents doesn't destroy
      your whole configuration.
-
    * You can experiment with ``<conf>`` by changing it, which will only be
      temporary until you re-run *update-conf.d*.
-
    * You can easily disable a snippet by renaming it to not start with two
      digets. The script will then ignore it and thus it will not be included in
      */etc/*``<conf>`` when you run *update-conf.d*.
-
    * Applications or self written scripts cannot harm your ``<conf>`` file by
      destroying it (accidentally).
-
 3. Are there any **negative effects**?
-
    * Yes.
-
    * If you rely on applications to update your */etc/*``<conf>``, you must
      manually add this update to your */etc/*``<conf>``*.d/00something* snippet.
      Otherwise it will be lost the next time you run *update-conf.d*. Some
-     Linux distribtions update */etc/fstab* and */etc/hosts* (and possibly
+     Linux distributions update */etc/fstab* and */etc/hosts* (and possibly
      others) when the system configuration is changed.
 
 Versioning

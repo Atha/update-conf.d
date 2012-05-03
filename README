@@ -99,8 +99,8 @@ Configure snippets:
   suit your needs. If you need examples for snippets and filenames, look at
   your /etc/env.d directory. The original configuration file 00original can
   then be deleted or renamed, like A0original or .00original or even
-  <conf>-backup, so it wont be included by the update-conf.d script. Now re-run
-  update-conf.d <conf> to update /etc/<conf>.
+  <conf>-backup, so it won't be included by the update-conf.d script. Now
+  re-run update-conf.d <conf> to update /etc/<conf>.
 
 
 Concept
@@ -145,7 +145,7 @@ Concept
 
    * If you rely on applications to update your /etc/<conf>, you must manually
      add this update to your /etc/<conf>.d/00something snippet. Otherwise it
-     will be lost the next time you run update-conf.d. Some Linux distribtions
+     will be lost the next time you run update-conf.d. Some Linux distributions
      update /etc/fstab and /etc/hosts (and possibly others) when the system
      configuration is changed.
 
