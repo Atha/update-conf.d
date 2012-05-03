@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Version 2012-04-03
+# Version 2012-05-03
 #
 # Script for flexible /etc/*.d configuration
 # Originally from Atha, with a lot of improvements from truc - thanks!

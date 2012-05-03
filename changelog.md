@@ -1,4 +1,4 @@
-## 2012-04-03
+## 2012-05-03
 * update-conf.d.in and update-conf.d:
   * short help added when no command-line argument is specified.
   * messages cleaned-up.
