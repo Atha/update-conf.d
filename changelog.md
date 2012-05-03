@@ -1,3 +1,9 @@
+## 2012-04-03
+* update-conf.d.in and update-conf.d:
+  * short help added when no command-line argument is specified.
+  * messages cleaned-up.
+  * command-line argument ? to list all valid `<conf>` entries added.
+
 ## 2012-01-25
 * Makefile updated: target "install" now only installs the script.
 * Makefile: target "install-with-fstab" added (old behaviour).
@@ -22,8 +28,10 @@
 * improved version, thanks to truc
 
 ## 2010-07-25
-* original version from 2008 released by Atha at the [Gentoo forum](http://forums.gentoo.org/viewtopic.php?p=6364143)
-* the Gentoo forum advocate truc immediately helped to improve the script - big thanks!
+* original version from 2008 released by Atha at the
+  [Gentoo forum](http://forums.gentoo.org/viewtopic.php?p=6364143)
+* the Gentoo forum advocate truc immediately helped to improve the script - big
+  thanks!
 
 ## 2008-01-20
 * initial version of update-fstab finished (unreleased, used by Atha)

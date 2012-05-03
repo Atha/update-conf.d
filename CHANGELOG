@@ -1,3 +1,9 @@
+* 2012-04-03
+  - update-conf.d.in and update-conf.d:
+    * short help added when no command-line argument is specified.
+    * messages cleaned-up.
+    * command-line argument ? to list all valid `<conf>` entries added.
+
 * 2012-01-25
   - Makefile updated: target "install" now only installs the script.
   - Makefile: target "install-with-fstab" added (old behaviour).
