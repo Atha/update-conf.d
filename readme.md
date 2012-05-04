@@ -1,5 +1,5 @@
-update-conf.d script for flexible /etc/<conf>.d configuration
-=============================================================
+update-conf.d script for flexible /etc/``<conf>``.d configuration
+=================================================================
 
 
 Origin
@@ -14,7 +14,7 @@ I then released it in 2010 on the
 that it would be useful to anyone.
 
 Since then a few people have made enhancements, and the script is now even able
-to handle any <conf>.d directory in the same way. It is now called
+to handle any ``<conf>``.d directory in the same way. It is now called
 **update-conf.d**.
 
 In October 2011 I created this GIT repository.
