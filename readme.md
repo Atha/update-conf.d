@@ -152,9 +152,9 @@ highly appreciated!
 Copyright and license
 ---------------------
 
-Copyright © 2013 javeree
-Copyright © 2011 Nicolas Bercher
-Copyright © 2010 truc (on improvements)
+Copyright © 2013 javeree  
+Copyright © 2011 Nicolas Bercher  
+Copyright © 2010 truc (on improvements)  
 Copyright © 2008-2013 Atha
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
