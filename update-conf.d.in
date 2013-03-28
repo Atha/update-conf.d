@@ -41,7 +41,7 @@ bkpconfpath="${confpath}.d.bak"
 dpath="${root}/${conf}.d"
 # path to the intermediate location of the new configuration file based on
 # <conf>.d/[0-9][0-9]* files:
-dconfpath="${dpath}/${conf}"
+dconfpath="${dpath}/$(basename ${conf})"
 # flag_verbose sets the verbosity level.
 # Default is 1 (verbose output). If you want no messages set this to 0.
 flag_verbose="1"
