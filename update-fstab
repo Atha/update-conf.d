@@ -1,10 +1,8 @@
 #!/bin/sh
-# Version 2011-10-26
+# Version 2011-10-26  DEPRICATED!
 #
 # Script for flexible /etc/fstab.d configuration
 # From Atha, with a lot of improvements from truc - thanks!
-#
-# DEPRICATED! Please use update-conf.d instead!
 #
 # You can find information on how to use this script at
 # http://forums.gentoo.org/viewtopic.php?p=6364143
@@ -17,7 +15,12 @@
 # Copyright for improvements 2010 truc
 # Copyright 2008,2010 Atha
 # Distributed under the terms of the GNU General Public License v2 or later
-
+#
+# The home of this script is https://github.com/Atha/update-conf.d
+# It first appeared at http://forums.gentoo.org/viewtopic.php?p=6364143
+#
+# DEPRICATED! Please use update-conf.d instead!
+#
 
 ## SETUP
 # fstabdpath sets the path where the individual fstab file are located, this

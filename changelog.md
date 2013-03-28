@@ -1,5 +1,8 @@
-## 2013-02-28
+## 2013-03-28
 * ebuild (by javeree) added
+  * KEYWORDS changed to "*", as the script should work everywhere
+* Makefile: install-with-fstab and install-update-fstab removed
+  * all the text updated to reflect this change
 
 ## 2012-05-03
 * update-conf.d.in and update-conf.d:
