@@ -152,9 +152,10 @@ highly appreciated!
 Copyright and license
 ---------------------
 
-Copyright © 2011 Nicolas Bercher  
-Copyright © 2010 truc (on improvements)  
-Copyright © 2008, 2010 Atha
+Copyright © 2013 javeree
+Copyright © 2011 Nicolas Bercher
+Copyright © 2010 truc (on improvements)
+Copyright © 2008-2013 Atha
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
 Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your

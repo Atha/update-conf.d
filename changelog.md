@@ -1,13 +1,16 @@
+## 2013-02-28
+* ebuild (by javeree) added
+
 ## 2012-05-03
 * update-conf.d.in and update-conf.d:
-  * short help added when no command-line argument is specified.
-  * messages cleaned-up.
-  * command-line argument ? to list all valid `<conf>` entries added.
+  * short help added when no command-line argument is specified
+  * messages cleaned-up
+  * command-line argument ? to list all valid `<conf>` entries added
 
 ## 2012-01-25
-* Makefile updated: target "install" now only installs the script.
-* Makefile: target "install-with-fstab" added (old behaviour).
-* update-conf.d.in: reference to home of the script added (GitHub).
+* Makefile updated: target "install" now only installs the script
+* Makefile: target "install-with-fstab" added (old behaviour)
+* update-conf.d.in: reference to home of the script added (GitHub)
 
 ## 2012-01-05
 * README updated
@@ -18,7 +21,7 @@
 ## 2011-10-26
 * released at GitHub
 * cosmetic changes to update-fstab and update-conf.d 
-  **NOTE:** update-fstab is depricated, update-conf.d should be used.
+  **NOTE:** update-fstab is depricated, update-conf.d should be used!
 * Makefile added for easier installation
 
 ## 2011-06-11
