@@ -22,4 +22,6 @@ src_prepare() {
         sed -i "s:^PREFIX=:PREFIX=${D}:" Makefile
         echo "patching the configuration to ensure it looks in /etc instead of in the sandbox"
         sed -i 's%@CONFIGDIR@%/etc%' update-conf.d.in
+        echo "patching the makefile so the installation path is /usr instead of /usr/local"
+        sed -i 's:^INSTALLDIR=\$(PREFIX)/usr/local/sbin:INSTALLDIR=\$(PREFIX)/usr/sbin:' Makefile
 }
