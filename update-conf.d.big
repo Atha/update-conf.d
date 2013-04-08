@@ -94,7 +94,7 @@ scriptconf_check () {
 }
 
 print_usage () {
-  echo "Usage: ${scriptname} [-12ahlsuv] <conf>" >&2
+  echo "Usage: ${scriptname} [-12achlnsuv] <conf>" >&2
   echo "" >&2
   echo "Options:" >&2
   echo "    -1  run-once (ignores list of valid <conf> entries)" >&2
