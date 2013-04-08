@@ -1,0 +1,314 @@
+#!/bin/sh
+#
+# Version 2013-04-08
+#
+# Script for flexible /etc/*.d configuration
+# Originally from Atha, with a lot of improvements from truc - thanks!
+# Generalized for /etc/*.d by Nicolas Bercher nbercher@yahoo.fr
+#
+# The included makefile assists easy installation: "make build ; make install"
+#
+# This script ideally goes into /usr/local/sbin and is called update-conf.d -
+# you need to configure your <conf> entries in separate files in /etc/<conf>.d;
+# only filenames starting with two digits are included!
+#
+# Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000, to name just two.
+#
+# Copyright 2013 javeree
+# Copyright 2011 Nicolas Bercher
+# Copyright 2010 truc (on improvements)
+# Copyright 2008-2013 Atha
+# Distributed under the terms of the GNU General Public License v2 or later
+#
+# The home of this script is https://github.com/Atha/update-conf.d
+# It first appeared at http://forums.gentoo.org/viewtopic.php?p=6364143
+#
+
+
+########
+## SETUP
+########
+
+# scriptname:
+scriptname=$(basename "$0")
+# root of configuration files:
+root="@CONFIGDIR@"
+# script configuration path:
+scriptconf="${root}/update-conf.d.conf"
+# flag_verbose sets the verbosity level (command line option -v). Default is 0 (no verbose output).
+flag_verbose=0
+# flag_runonce (command line option -1)
+flag_runonce=0
+# flag_set (command line option -s)
+flag_set=0
+# flag_unset (command line option -u)
+flag_unset=0
+# flag_processall (command line option -a)
+flag_processall=0
+# flag_donothing (command line option -t)
+flag_donothing=0
+# flag_continueonerror (command line option -c)
+flag_continueonerror=0
+
+
+##################
+## BASIC FUNCTIONS
+##################
+
+warning () {
+  echo $@ >&2
+}
+
+message () {
+  [ ${flag_verbose} -gt 0 ] && echo $@
+}
+
+fail () {
+  warning "Aborted."
+  [ ${flag_continueonerror} -gt 0 ] && return 0
+  exit ${1}
+}
+
+
+#####################
+## SPECIFIC FUNCTIONS
+#####################
+
+## check, if $scripconf is present (available): return 1 if not
+scriptconf_checksilent () {
+  [ -f "${scriptconf}" ] && return 0
+  return 1
+}
+
+## check, if $scripconf is present (available): exit with warning if not
+scriptconf_check () {
+#  if [ ! -f "${scriptconf}" ]; then
+#    warning "${scriptname}: Script configuration file '${scriptconf}' not found!" >&2
+#    exit 1
+#  fi
+  if ! scriptconf_checksilent ; then
+    warning "${scriptname}: Script configuration file '${scriptconf}' not found!"
+    exit 1
+  fi
+  return 0
+}
+
+print_usage () {
+  echo "Usage: ${scriptname} [-12ahlsuv] <conf>" >&2
+  echo "" >&2
+  echo "Options:" >&2
+  echo "    -1  run-once (ignores list of valid <conf> entries)" >&2
+  echo "    -2  (same as -1 -s)" >&2
+  echo "        process and add <conf> to list of valid entries" >&2
+  echo "    -a  process all valid <conf> entries from the stored list (implies -c)" >&2
+  echo "        the <conf>-argument is not required or irgnored when present" >&2
+  echo "    -c  continue on error" >&2
+  echo "    -h  show this short help page" >&2
+  echo "    -l  show list of valid <conf> entries" >&2
+  echo "    -n  test, do nothing (implies -v)" >&2
+  echo "    -s  set <conf> as valid entry" >&2
+  echo "    -u  unset <conf> as valid entry" >&2
+  echo "    -v  be verbose (default: not verbose)" >&2
+  echo "" >&2
+  echo "Argument:" >&2
+  echo " <conf> is a .d'ed config in ${root}" >&2
+  echo "" >&2
+  echo "The list of valid <conf> entries is stored in ${scriptconf}." >&2
+  exit 0
+}
+
+
+## check, if $1 ($conf from update_confd) is a valid entry
+scriptconf_find () {
+  if [ ${flag_runonce} -eq 1 ] ; then
+    message "Run-once, not in list: ${1}"
+    return 1
+  fi
+  if grep "^${1}$" "${scriptconf}"; then
+    return 1
+  fi
+  return 0
+}
+
+## option -l (list)
+scriptconf_list () {
+  scriptconf_check
+  cat "${scriptconf}"
+  return 0
+}
+
+## option -s (set)
+scriptconf_add () {
+  # add $1
+  ## NOTE: $scriptconf may be already present, or not. BOTH cases should work!
+  echo "DEV:scriptconf_add"
+  echo "NOT IMPLEMENTED YET"
+  exit 1
+}
+
+## option -u (unset)
+scriptconf_remove () {
+  # remove $1
+  echo "DEV:scriptconf_remove"
+  echo "NOT IMPLEMENTED YET"
+  exit 1
+}
+
+
+################
+## MAIN FUNCTION
+################
+
+update_confd () {
+  if [ ! $# -eq 1 ] ; then
+    warning "Internal script error. Please contact the author."
+    exit 100
+#    return 1
+  fi
+
+  message "Processing <conf> entry: ${1}"
+
+  ################
+  ## CONFIGURATION
+  ################
+
+  # name of the configuration file to process (argument to this function):
+  conf="${1}"
+  # configuration file path:
+  confpath="${root}/${conf}"
+  # path to the backup of the current/previous configuration file:
+  bkpconfpath="${confpath}.d.bak"
+  # <conf.d> directory path:
+  dpath="${root}/${conf}.d"
+  # path to the intermediate location of the new configuration file based on
+  # <conf>.d/[0-9][0-9]* files:
+  dconfpath="${dpath}/$(basename ${conf})"
+
+  # check if <conf> is available in list (or runonce)
+  if scriptconf_find ${1} ; then
+    warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
+    fail 2 && return 1
+  fi
+
+  # check if <conf>.d directory exists
+  if [ ! -d "${dpath}" ] ; then
+    warning "${scriptname}: directory ${dpath} does not exist."
+    fail 2 && return 1
+  fi
+
+  # check if <conf>.d/<conf> isn't already there (prevent data loss)
+  if [ -e "${dconfpath}" ] ; then
+    warning "${scriptname}: please remove ${dconfpath} before you run this script."
+    warning "${scriptname}: NOTE: It may have been left by a previous run, but you should check anyway."
+    fail 2 && return 1
+  fi
+
+  if [ $flag_donothing -gt 0 ] ; then
+    message "Do nothing: ${1} would have been processed."
+    return 0
+  fi
+
+  cat << 'EOT' > "${dconfpath}" && message "${dconfpath} created, header added"
+# Configuration file automatically generated by the update-conf.d
+# script.
+#
+# Please change the according lines in /etc/<conf.d>/* if you want
+# them to be permanent, otherwise they will not survive the next
+# invocation of update-conf.d!
+#
+EOT
+
+  for dconf_file in "${dpath}"/[0-9][0-9]* ; do
+    echo "" >> "${dconfpath}"
+    echo "# ${dconf_file}:" >> "${dconfpath}"
+    grep '^[^#].*' "${dconf_file}" >> "${dconfpath}"
+    message "Added: ${dconf_file}"
+  done
+
+  mv -f "${confpath}" "${bkpconfpath}" && message "Existing ${confpath} renamed to ${bkpconfpath}"
+  mv -f "${dconfpath}" "${confpath}" && message "New configuration file ${dconfpath} moved to ${confpath}"
+
+  echo "${scriptname}: ${confpath} updated."
+  exit 0
+}
+
+
+###############
+## MAIN PROGRAM
+###############
+# Parse command line options.
+while getopts 12achlnsuv OPT; do
+  case "$OPT" in
+    1)
+          flag_runonce=1
+          ;;
+    2)
+          flag_runonce=1
+          flag_set=1
+          ;;
+    a)
+          flag_processall=1
+          ;;
+    c)
+          flag_continueonerror=1
+          ;;
+    h)
+          print_usage
+          ;;
+    l)
+          echo "Configuration file: ${scriptconf}"
+          echo "List of valid <conf> enties:"
+          echo ""
+          scriptconf_list && exit 0
+          exit 1
+          ;;
+    n)
+          flag_donothing=1
+          flag_verbose=1
+          ;;
+    s)
+          flag_set=1
+          ;;
+    u)
+          flag_unset=1
+          ;;
+    v)
+          flag_verbose=1
+          ;;
+    \?)
+          # getopts issues an error message
+          warning "Command line options parsing error."
+          print_usage
+          exit 100
+          ;;
+  esac
+done
+
+# check for /etc/update-conf.d (or, if PREFIXED, something other than /etc); exit on error
+scriptconf_check
+
+# Remove the switches we parsed above.
+shift `expr $OPTIND - 1`
+
+## if -a was used, process all valid <conf> enties here and exit, otherwise continue
+if [ ${flag_processall} -eq 1 ] ; then
+  message "Processing all valid <conf> entries..."
+  message
+  for confentry in `cat ${scriptconf}` ; do
+    update_confd $confentry
+    message
+  done
+  exit 0
+fi
+
+# We want at least one non-option argument (the <conf> to be processed)
+if [ $# -lt 1 ]; then
+  print_usage
+  exit 1
+fi
+
+for PARAM; do
+  update_confd ${1}
+done
+
+exit 0
