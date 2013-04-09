@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 #
 # update-conf.d COMPLEX VERSION
 # Version 2013-04-09
@@ -140,6 +140,12 @@ print_usage () {
   exit 0
 }
 
+scriptconf_findsilent () {
+  if grep "^${1}$" "${scriptconf}" > /dev/null 2>&1 ; then
+    return 0
+  fi
+  return 1
+}
 
 ## check, if $1 ($conf from update_confd) is a valid entry
 scriptconf_find () {
@@ -147,10 +153,7 @@ scriptconf_find () {
     message "Run-once, not in list: ${1}"
     return 0
   fi
-  if grep "^${1}$" "${scriptconf}" > /dev/null 2>&1 ; then
-    return 0
-  fi
-  return 1
+  return $(scriptconf_findsilent ${1})
 }
 
 ## option -l (list)
@@ -160,23 +163,23 @@ scriptconf_list () {
   return 0
 }
 
-## option -s (set)
+## option -s (set): add $1 (argument to this function)
 scriptconf_add () {
-  # add $1
-  ## NOTE: $scriptconf may be already present, or not. BOTH cases should work!
-  echo "DEV:scriptconf_add:${1}"
-  echo "NOT IMPLEMENTED YET"
-  return 1
-#  exit 1
+  if scriptconf_checksilent && scriptconf_findsilent ${1} ; then
+    return 1
+  else
+    echo ${1} >> "${scriptconf}"
+    message "${scriptname}: Item added to list of valid entries: ${1}"
+  fi
+  return 0
 }
 
-## option -u (unset)
+## option -u (unset): remove $1 (argument to this function)
 scriptconf_remove () {
-  # remove $1
-  echo "DEV:scriptconf_remove:${1}"
-  echo "NOT IMPLEMENTED YET"
+  if scriptconf_checksilent && scriptconf_findsilent ${1} ; then
+    mv "${scriptconf}" "${scriptconf}.bak" && grep -v "^${1}$" "${scriptconf}.bak" > "${scriptconf}" && message "${scriptname}: Item removed from list of valid entries: ${1}" && return 0
+  fi
   return 1
-#  exit 1
 }
 
 
@@ -311,7 +314,7 @@ while getopts 12achlnsuv OPT; do
     \?)
           # getopts issues an error message
 #          warning "${scriptname}: command line options parsing error in function getopts."
-          warning "${scriptname}: unknown command line option"
+#          warning "${scriptname}: unknown command line option"
           warning
           print_usage
           exit 100
