@@ -101,7 +101,7 @@ scriptconf_check () {
 #    exit 1
 #  fi
   if ! scriptconf_checksilent ; then
-    warning "${scriptname}: Script configuration file '${scriptconf}' not found!"
+    warning "${scriptname}: script configuration file '${scriptconf}' not found!"
     exit 1
   fi
   return 0
@@ -121,7 +121,7 @@ print_usage () {
   warning "    -2  (same as -1 -s)"
   warning "        process and add <conf> to list of valid entries"
   warning "    -a  process all valid <conf> entries from the stored list (implies -c)"
-  warning "        the <conf>-argument is not required or irgnored when present"
+  warning "        the <conf>-argument is not required or ignored when present"
   warning "        with -a, options -s and -u are ignored"
   warning "    -c  continue on error"
   warning "    -h  show this short help page"
@@ -147,7 +147,7 @@ scriptconf_find () {
     message "Run-once, not in list: ${1}"
     return 0
   fi
-  if grep "^${1}$" "${scriptconf}"; then
+  if grep "^${1}$" "${scriptconf}" > /dev/null 2>&1 ; then
     return 0
   fi
   return 1
@@ -186,7 +186,7 @@ scriptconf_remove () {
 
 update_confd () {
   if [ ! $# -eq 1 ] ; then
-    warning "Internal script error. Please contact the author."
+    warning "${scriptname}: internal script error in function update_confd. Please contact the author."
     exit 100
 #    return 1
   fi
@@ -209,9 +209,9 @@ update_confd () {
   # <conf>.d/[0-9][0-9]* files:
   dconfpath="${dpath}/$(basename ${conf})"
 
-  # check if <conf> is available in list (or runonce)
+  # check if <conf> is available in list (or run-once)
   if ! scriptconf_find ${1} ; then
-    # don't display a warning if -s is also used
+    # don't display a warning AND don't exit if option -s (i.e. set) is also used
     if [ ! ${flag_set} -eq 1 ] ; then
       warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
       fail 2
@@ -259,7 +259,7 @@ EOT
   mv -f "${confpath}" "${bkpconfpath}" && message "Existing ${confpath} renamed to ${bkpconfpath}"
   mv -f "${dconfpath}" "${confpath}" && message "New configuration file ${dconfpath} moved to ${confpath}"
 
-  echo "${scriptname}: ${confpath} updated."
+  warning "${scriptname}: ${confpath} updated."
   return 0
 }
 
@@ -310,7 +310,9 @@ while getopts 12achlnsuv OPT; do
           ;;
     \?)
           # getopts issues an error message
-          warning "Command line options parsing error."
+#          warning "${scriptname}: command line options parsing error in function getopts."
+          warning "${scriptname}: unknown command line option"
+          warning
           print_usage
           exit 100
           ;;
@@ -323,8 +325,8 @@ shift `expr $OPTIND - 1`
 ## if -a was used, process all valid <conf> enties here and exit, otherwise continue
 if [ ${flag_processall} -eq 1 ] ; then
   scriptconf_check
-  [ ${flag_set} -eq 1 ] && message "${scriptname}: Option -s cannot be used with -a, ignored."
-  [ ${flag_unset} -eq 1 ] && message "${scriptname}: Option -u cannot be used with -a, ignored."
+  [ ${flag_set} -eq 1 ] && message "${scriptname}: option -s cannot be used with -a, ignored."
+  [ ${flag_unset} -eq 1 ] && message "${scriptname}: option -u cannot be used with -a, ignored."
   message "Processing all valid <conf> entries..."
   message
   for confentry in `cat ${scriptconf}` ; do
@@ -342,7 +344,7 @@ if [ $# -lt 1 ]; then
 fi
 
 if [ ${flag_set} -eq 1 ] && [ ${flag_unset} -eq 1 ] ; then
-  warning "${scriptname}: Options -s and -u cannot be used at the same time!"
+  warning "${scriptname}: options -s and -u cannot be used at the same time!"
   exit 1
 fi
 
