@@ -1,3 +1,10 @@
+* 2013-04-09
+  - two versions renamed: SIMPLE and COMPLEX
+    * run "make select-complex" or "make select-simple" to select
+  - COMPLEX version updated
+    * set (-s) and unset (-u) logic implemented.
+    * THE FUNCTIONS set and unset ARE STILL STUBS i.e. not implemented!
+
 * 2013-04-08
   - BIG version of update-conf.d added - USE WITH CAUTION! Alpha!
     * to use it, run make select-big clean install

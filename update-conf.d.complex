@@ -1,18 +1,32 @@
 #!/bin/sh
 #
-# Version 2013-04-08
+# update-conf.d COMPLEX VERSION
+# Version 2013-04-09
 #
 # Script for flexible /etc/*.d configuration
 # Originally from Atha, with a lot of improvements from truc - thanks!
 # Generalized for /etc/*.d by Nicolas Bercher nbercher@yahoo.fr
+# Idea for the COMPLEX version and fixes by javeree
+# COMPLEX version by Atha
 #
-# The included makefile assists easy installation: "make build ; make install"
+# The included makefile assists easy installation:
+# "make select-complex clean" will select the complex version of this script.
+# "make build install" will build and install it.
 #
-# This script ideally goes into /usr/local/sbin and is called update-conf.d -
-# you need to configure your <conf> entries in separate files in /etc/<conf>.d;
-# only filenames starting with two digits are included!
+# For installing, this script will be copied into /usr/local/sbin and is called
+# update-conf.d for both the SIMPLE and the COMPLEX version.
+# However, you may find /usr/sbin a more suited place.
 #
-# Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000, to name just two.
+# You need to configure your <conf> entries in separate files in /etc/<conf>.d;
+# For your convenience, the -1 option is included to "run-once" without such an
+# entry, but ONLY in the COMPLEX version!
+#
+# From the .d'ed directory only filenames starting with two digits are included!
+# Other files are "inactive" which is the intended way of doing it.
+#
+# Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000. If one is renamed,
+# say to /etc/hosts.d/.61nfs-dm8000 or /etc/hosts.d/nfs-dm8000, it is ignored by
+# the script i.e. inactive.
 #
 # Copyright 2013 javeree
 # Copyright 2011 Nicolas Bercher
@@ -56,15 +70,15 @@ flag_continueonerror=0
 ##################
 
 warning () {
-  echo $@ >&2
+  echo "$@" >&2
 }
 
 message () {
-  [ ${flag_verbose} -gt 0 ] && echo $@
+  [ ${flag_verbose} -gt 0 ] && echo "$@"
 }
 
 fail () {
-  warning "Aborted."
+  warning "Aborted due to failure."
   [ ${flag_continueonerror} -gt 0 ] && return 0
   exit ${1}
 }
@@ -93,6 +107,12 @@ scriptconf_check () {
   return 0
 }
 
+print_version () {
+  warning "update-conf.d COMPLEX version 2013-04-09"
+  warning
+  return 0
+}
+
 print_usage () {
   warning "Usage: ${scriptname} [-12achlnsuv] [<conf>...]"
   warning
@@ -102,12 +122,15 @@ print_usage () {
   warning "        process and add <conf> to list of valid entries"
   warning "    -a  process all valid <conf> entries from the stored list (implies -c)"
   warning "        the <conf>-argument is not required or irgnored when present"
+  warning "        with -a, options -s and -u are ignored"
   warning "    -c  continue on error"
   warning "    -h  show this short help page"
   warning "    -l  show list of valid <conf> entries"
   warning "    -n  test, do nothing (implies -v)"
   warning "    -s  set <conf> as valid entry"
+  warning "        cannot be used together with -u"
   warning "    -u  unset <conf> as valid entry"
+  warning "        cannot be used together with -s"
   warning "    -v  be verbose (default: not verbose)"
   warning
   warning "Arguments:"
@@ -141,17 +164,19 @@ scriptconf_list () {
 scriptconf_add () {
   # add $1
   ## NOTE: $scriptconf may be already present, or not. BOTH cases should work!
-  echo "DEV:scriptconf_add"
+  echo "DEV:scriptconf_add:${1}"
   echo "NOT IMPLEMENTED YET"
-  exit 1
+  return 1
+#  exit 1
 }
 
 ## option -u (unset)
 scriptconf_remove () {
   # remove $1
-  echo "DEV:scriptconf_remove"
+  echo "DEV:scriptconf_remove:${1}"
   echo "NOT IMPLEMENTED YET"
-  exit 1
+  return 1
+#  exit 1
 }
 
 
@@ -186,8 +211,11 @@ update_confd () {
 
   # check if <conf> is available in list (or runonce)
   if ! scriptconf_find ${1} ; then
-    warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
-    fail 2
+    # don't display a warning if -s is also used
+    if [ ! ${flag_set} -eq 1 ] ; then
+      warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
+      fail 2
+    fi
     return 1
   fi
 
@@ -257,6 +285,7 @@ while getopts 12achlnsuv OPT; do
           flag_continueonerror=1
           ;;
     h)
+          print_version
           print_usage
           ;;
     l)
@@ -294,6 +323,8 @@ shift `expr $OPTIND - 1`
 ## if -a was used, process all valid <conf> enties here and exit, otherwise continue
 if [ ${flag_processall} -eq 1 ] ; then
   scriptconf_check
+  [ ${flag_set} -eq 1 ] && message "${scriptname}: Option -s cannot be used with -a, ignored."
+  [ ${flag_unset} -eq 1 ] && message "${scriptname}: Option -u cannot be used with -a, ignored."
   message "Processing all valid <conf> entries..."
   message
   for confentry in `cat ${scriptconf}` ; do
@@ -305,7 +336,13 @@ fi
 
 # We want at least one non-option argument (the <conf> to be processed)
 if [ $# -lt 1 ]; then
+  print_version
   print_usage
+  exit 1
+fi
+
+if [ ${flag_set} -eq 1 ] && [ ${flag_unset} -eq 1 ] ; then
+  warning "${scriptname}: Options -s and -u cannot be used at the same time!"
   exit 1
 fi
 
@@ -313,8 +350,10 @@ fi
 scriptconf_check
 
 for PARAM; do
+  [ ${flag_unset} -eq 1 ] && scriptconf_remove ${PARAM}
   update_confd ${PARAM}
   message
+  [ ${flag_set} -eq 1 ] && scriptconf_add ${PARAM}
 done
 
 exit 0

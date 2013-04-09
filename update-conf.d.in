@@ -1,22 +1,33 @@
 #!/bin/sh
 #
+# update-conf.d SIMPLE VERSION
 # Version 2012-05-03
 #
 # Script for flexible /etc/*.d configuration
 # Originally from Atha, with a lot of improvements from truc - thanks!
 # Generalized for /etc/*.d by Nicolas Bercher nbercher@yahoo.fr
+# Fixes by javeree
 #
-# The included makefile assists easy installation: "make build ; make install"
+# The included makefile assists easy installation:
+# "make select-simple clean" will select the simple version of this script.
+# "make build install" will build and install it.
 #
-# This script ideally goes into /usr/local/sbin and is called update-conf.d -
-# you need to configure your <conf> entries in separate files in /etc/<conf>.d;
-# only filenames starting with two digits are included!
+# For installing, this script will be copied into /usr/local/sbin and is called
+# update-conf.d for both the SIMPLE and the COMPLEX version.
+# However, you may find /usr/sbin a more suited place.
 #
-# Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000, to name just two.
+# You need to configure your <conf> entries in separate files in /etc/<conf>.d;
+# from the .d'ed directory only filenames starting with two digits are included!
+# Other files are "inactive" which is the intended way of doing it.
 #
+# Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000. If one is renamed,
+# say to /etc/hosts.d/.61nfs-dm8000 or /etc/hosts.d/nfs-dm8000, it is ignored by
+# the script i.e. inactive.
+#
+# Copyright 2013 javeree
 # Copyright 2011 Nicolas Bercher
 # Copyright 2010 truc (on improvements)
-# Copyright 2008,2010 Atha
+# Copyright 2008-2013 Atha
 # Distributed under the terms of the GNU General Public License v2 or later
 #
 # The home of this script is https://github.com/Atha/update-conf.d
@@ -49,7 +60,7 @@ flag_verbose="1"
 
 ## FUNCTIONS
 message () {
-  [ ${flag_verbose} -gt 0 ] && echo $@
+  [ ${flag_verbose} -gt 0 ] && echo "$@"
 }
 
 
