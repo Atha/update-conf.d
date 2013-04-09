@@ -1,3 +1,8 @@
+## 2013-04-08
+* BIG version of update-conf.d added - USE WITH CAUTION! Alpha!
+  * to use it, run make select-big clean install
+  * BE WARNED: THIS SCRIPT HAS ALPHA STATUS! MAKE BACKUPS!
+
 ## 2013-03-28
 * ebuild (by javeree) added
   * KEYWORDS changed to "*", as the script should work everywhere

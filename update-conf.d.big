@@ -94,26 +94,26 @@ scriptconf_check () {
 }
 
 print_usage () {
-  echo "Usage: ${scriptname} [-12achlnsuv] <conf>" >&2
-  echo "" >&2
-  echo "Options:" >&2
-  echo "    -1  run-once (ignores list of valid <conf> entries)" >&2
-  echo "    -2  (same as -1 -s)" >&2
-  echo "        process and add <conf> to list of valid entries" >&2
-  echo "    -a  process all valid <conf> entries from the stored list (implies -c)" >&2
-  echo "        the <conf>-argument is not required or irgnored when present" >&2
-  echo "    -c  continue on error" >&2
-  echo "    -h  show this short help page" >&2
-  echo "    -l  show list of valid <conf> entries" >&2
-  echo "    -n  test, do nothing (implies -v)" >&2
-  echo "    -s  set <conf> as valid entry" >&2
-  echo "    -u  unset <conf> as valid entry" >&2
-  echo "    -v  be verbose (default: not verbose)" >&2
-  echo "" >&2
-  echo "Argument:" >&2
-  echo " <conf> is a .d'ed config in ${root}" >&2
-  echo "" >&2
-  echo "The list of valid <conf> entries is stored in ${scriptconf}." >&2
+  warning "Usage: ${scriptname} [-12achlnsuv] [<conf>...]"
+  warning
+  warning "Options:"
+  warning "    -1  run-once (ignores list of valid <conf> entries)"
+  warning "    -2  (same as -1 -s)"
+  warning "        process and add <conf> to list of valid entries"
+  warning "    -a  process all valid <conf> entries from the stored list (implies -c)"
+  warning "        the <conf>-argument is not required or irgnored when present"
+  warning "    -c  continue on error"
+  warning "    -h  show this short help page"
+  warning "    -l  show list of valid <conf> entries"
+  warning "    -n  test, do nothing (implies -v)"
+  warning "    -s  set <conf> as valid entry"
+  warning "    -u  unset <conf> as valid entry"
+  warning "    -v  be verbose (default: not verbose)"
+  warning
+  warning "Arguments:"
+  warning " <conf> is a .d'ed config in ${root}"
+  warning
+  warning "The list of valid <conf> entries is stored in ${scriptconf}."
   exit 0
 }
 
@@ -122,12 +122,12 @@ print_usage () {
 scriptconf_find () {
   if [ ${flag_runonce} -eq 1 ] ; then
     message "Run-once, not in list: ${1}"
-    return 1
+    return 0
   fi
   if grep "^${1}$" "${scriptconf}"; then
-    return 1
+    return 0
   fi
-  return 0
+  return 1
 }
 
 ## option -l (list)
@@ -185,22 +185,25 @@ update_confd () {
   dconfpath="${dpath}/$(basename ${conf})"
 
   # check if <conf> is available in list (or runonce)
-  if scriptconf_find ${1} ; then
+  if ! scriptconf_find ${1} ; then
     warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
-    fail 2 && return 1
+    fail 2
+    return 1
   fi
 
   # check if <conf>.d directory exists
   if [ ! -d "${dpath}" ] ; then
     warning "${scriptname}: directory ${dpath} does not exist."
-    fail 2 && return 1
+    fail 2
+    return 1
   fi
 
   # check if <conf>.d/<conf> isn't already there (prevent data loss)
   if [ -e "${dconfpath}" ] ; then
     warning "${scriptname}: please remove ${dconfpath} before you run this script."
     warning "${scriptname}: NOTE: It may have been left by a previous run, but you should check anyway."
-    fail 2 && return 1
+    fail 2
+    return 1
   fi
 
   if [ $flag_donothing -gt 0 ] ; then
@@ -229,7 +232,7 @@ EOT
   mv -f "${dconfpath}" "${confpath}" && message "New configuration file ${dconfpath} moved to ${confpath}"
 
   echo "${scriptname}: ${confpath} updated."
-  exit 0
+  return 0
 }
 
 
@@ -247,6 +250,7 @@ while getopts 12achlnsuv OPT; do
           flag_set=1
           ;;
     a)
+          flag_continueonerror=1
           flag_processall=1
           ;;
     c)
@@ -259,8 +263,8 @@ while getopts 12achlnsuv OPT; do
           echo "Configuration file: ${scriptconf}"
           echo "List of valid <conf> enties:"
           echo ""
-          scriptconf_list && exit 0
-          exit 1
+          scriptconf_list
+          exit 0
           ;;
     n)
           flag_donothing=1
@@ -284,14 +288,12 @@ while getopts 12achlnsuv OPT; do
   esac
 done
 
-# check for /etc/update-conf.d (or, if PREFIXED, something other than /etc); exit on error
-scriptconf_check
-
 # Remove the switches we parsed above.
 shift `expr $OPTIND - 1`
 
 ## if -a was used, process all valid <conf> enties here and exit, otherwise continue
 if [ ${flag_processall} -eq 1 ] ; then
+  scriptconf_check
   message "Processing all valid <conf> entries..."
   message
   for confentry in `cat ${scriptconf}` ; do
@@ -307,8 +309,12 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
+# check for /etc/update-conf.d (or, if PREFIXED, something other than /etc); exit on error
+scriptconf_check
+
 for PARAM; do
-  update_confd ${1}
+  update_confd ${PARAM}
+  message
 done
 
 exit 0
