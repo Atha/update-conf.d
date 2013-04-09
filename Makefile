@@ -5,10 +5,10 @@ INSTALLDIR=$(PREFIX)/usr/local/sbin
 build: update-conf.d
 
 select-big:
-	-mv update-conf.d.big update-conf.d.in
+	-cp update-conf.d.big update-conf.d.in
 
 select-tiny:
-	-mv update-conf.d.tiny update-conf.d.in
+	-cp update-conf.d.tiny update-conf.d.in
 
 update-conf.d: update-conf.d.in
 	sed -e 's%@CONFIGDIR@%${CONFIGDIR}%' $< > $@
