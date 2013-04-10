@@ -1,3 +1,6 @@
+## 2013-04-10
+* complex version: minor fixes, shebang corrected
+
 ## 2013-04-09
 * two versions renamed: SIMPLE and COMPLEX
   * run "make select-complex" or "make select-simple" to select
