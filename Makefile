@@ -4,11 +4,11 @@ INSTALLDIR=$(PREFIX)/usr/local/sbin
 
 build: update-conf.d
 
-select-big:
-	-cp update-conf.d.big update-conf.d.in
+select-complex:
+	-cp update-conf.d.complex update-conf.d.in
 
-select-tiny:
-	-cp update-conf.d.tiny update-conf.d.in
+select-simple:
+	-cp update-conf.d.simple update-conf.d.in
 
 update-conf.d: update-conf.d.in
 	sed -e 's%@CONFIGDIR@%${CONFIGDIR}%' $< > $@
@@ -30,4 +30,4 @@ uninstall:
 clean:
 	-rm -f update-conf.d update-conf.d.conf *~
 
-.PHONY: build update-cond.d install update uninstall clean
+.PHONY: build update-conf.d install update uninstall clean
