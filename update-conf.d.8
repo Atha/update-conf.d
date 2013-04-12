@@ -1,0 +1,186 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH update-conf.d 8 2013-04-12 "version 2013-04-10" "Atha"
+.\" Please adjust the date whenever revising this manpage.
+.SH NAME
+update-conf.d \- Script for flexible /etc/<conf>.d configuration
+.SH SYNOPSIS
+.B update-conf.d
+.RI [options]
+.I [<conf> ...]
+.SH DESCRIPTION
+The idea behind update-conf.d is to split existing or new configuration files into snippets for easier management. It originated from a simple bash script called update-fstab that did this for specifically for /etc/fstab. It was then modified to be more versatile and can now handle every system-wide configuration file inside /etc.
+.sp
+.B CONCEPT
+.TP
+.B 1. Why would you want to split a configuration file into snippets?
+For one, you may like a modular configuration basis. You can have individually columned configuration files that would normally only make your single (original) configuration file harder to read. Take fstab for example. Lines for proc, sysfs, tmpfs, swap will have different column sizes than UUID based partitions or partitions assigned by path in /dev/disk/by-path/, which require different columns than partitions assigned like /dev/sda1. Now you can have seperate files for that, each with an individual # comment line for the columns, making each file very easy to read and edit.
+.sp
+You can use different sources for each snippet. For example, you could share a snippet over the network, to have multiple installations updated at the same time. All you have to do is make sure the update-conf.d script is run after syncronizing it, and you're done.
+.TP
+.B 2. What other positive effects can I expect?
+Your /etc/<conf> is now reproducable by running the update-conf.d script. Accidentally deleting it or altering its contents doesn't destroy your whole configuration.
+.sp
+You can experiment with <conf> by changing it, which will only be temporary until you re-run update-conf.d.
+.sp
+You can easily disable a snippet by renaming it to not start with two digets. The script will then ignore it and thus it will not be included in /etc/<conf> when you run update-conf.d.
+.sp
+Applications or self written scripts cannot harm your <conf> file by destroying it (accidentally).
+.TP
+.B 3. Are there any negative effects?
+Yes.
+.sp
+If you rely on applications to update your /etc/<conf>, you must manually add this update to your /etc/<conf>.d/00something snippet. Otherwise it will be lost the next time you run update-conf.d. Some Linux distributions update /etc/fstab and /etc/hosts (and possibly others) when the system configuration is changed.
+.SH OPTIONS
+.TP
+.B \-1
+Run-once. This ignores the list of valid <conf> entries, but still requires a /etc/<conf>.d directory to be present (naturally).
+.sp
+Useful when no configuration file (/etc/update-conf.d.conf) is present at all.
+.TP
+.B \-2
+This is a shortcut for -1 -s.
+.sp
+Useful to add <conf> to the list and update it at the same time.
+.TP
+.B \-a
+This option will automatically process all entries from the configuration file /etc/update-conf.d.conf.
+.br
+If invoked together with -s and -u, the latter options will be ignored, i.e. -a takes precedence.
+.br
+Implies -c (continue on error). This ensures, if one entry is invalid or has errors, the following entries will be processed nevertheless.
+.TP
+.B \-c
+Continue on error. Self-explanatory.
+.sp
+Useful when more than one <conf> entry is specified.
+.TP
+.B \-h
+Display a help page and exit.
+.TP
+.B \-l
+Show a list of all valid <conf> entries to be processed.
+.sp
+This ensures that a user correctly sets up his/her system in order for update-conf.d to function properly. It also prevents unintended use und accidental overwriting of important system files.
+.sp
+This function actually does the same as cat /etc/update-conf.d.conf
+.TP
+.B \-n
+Do nothing. This option does everything except actually writing and/or moving files.
+.br
+Implies -v (verbose output).
+.sp
+Useful for testing what would have been done when specific options are used.
+.TP
+.B \-s
+Set <conf> as a valid entry. Requires at least one <conf> as an argument and adds it to the list of valid <conf> entries.
+.br
+Cannot be used together with -u (unset).
+.sp
+This is actually the same as
+.IP
+echo "<conf>" >> /etc/update-conf.d.conf
+.PP
+.TP
+.B \-u
+Unset <conf> as a valid entry. Requires at least one <conf> as an argument and removes it from the list of valid <conf> entries.
+.br
+Cannot be used together with -s (set).
+.TP
+.B \-v
+Be verbose. This will display exactly which files are put together when updating <conf> as well as lots of other useful output. Default: not verbose.
+.br
+Exception: when option -n is specified, the default is to be verbose. This cannot be unset.
+.SH ARGUMENTS
+.B <conf>
+Throughout the update-conf.d script and all its manuals and text files, <conf> is a substitute for a system-wide configuration file, in Unix-like systems typically found in /etc. Well known examples include /etc/fstab or /etc/hosts.
+.TP
+.B <conf>
+A valid <conf> entry from the list. If option -1 is used, a valid <conf> (i.e. directory /etc/<conf>.d) must still exist in order to successfully proceed.
+.sp
+The list of valid <conf> entries is stored in /etc/update-conf.d.conf. This file is a regular text file which can be edited with any text editor. It should contain one <conf> entry per line.
+.br
+Example:
+.IP
+.nf
+fstab
+hosts
+sudoers
+.fi
+.PP
+.SH FILES
+Files that are automatically created and/or overwritten without warning:
+.IP
+.nf
+/etc/update-conf.d.conf
+/etc/update-conf.d.conf.bak
+/etc/<conf>
+/etc/<conf>.bak
+.fi
+.PP
+Files and directories, which the user has to manage:
+.IP
+.nf
+/etc/<conf>.d/
+/etc/<conf>.d/[0-9][0-9]*
+.fi
+.PP
+.SH EXAMPLES
+<conf> is any configuration file you like to make .d'ed, i.e. split into snippets. When reading this, simply substitute <conf> by the name of the configuration file you want to process.
+.br
+Examples: fstab, hosts
+.sp
+Copy existing configuration:
+.sp
+Copy it to a (newly created) .d'ed directory:
+.IP
+.nf
+cd /etc
+mkdir <conf>.d
+cp <conf> <conf>.d/00original
+.fi
+.PP
+Example: If your <conf> is fstab, you will now have /etc/fstab.d/00original
+.sp
+Add .d'ed directory to /etc/update-conf.d.conf:
+.IP
+.nf
+echo <conf> >> /etc/update-conf.d.conf
+.fi
+.PP
+You may use your favorite text editor to add/delete entries and manage /etc/update-conf.d.conf.
+.sp
+Test:
+.sp
+This will take all files in /etc/<conf>.d/ that start with two digits (^[0-9][0-9]), leave out empty lines and comments (^[#]) and make a new /etc/<conf> with this information.
+.IP
+.nf
+update-conf.d <conf>
+.fi
+.PP
+.sp
+Example:
+.IP
+.nf
+update-conf.d fstab
+.fi
+.PP
+.sp
+Configure snippets:
+.sp
+Now take your existing 00original apart and split it up into snippets that suit your needs. If you need examples for snippets and filenames, look at your /etc/env.d directory. The original configuration file 00original can then be deleted or renamed, like A0original or .00original or even <conf>-backup, so it won't be included by the update-conf.d script. Now re-run update-conf.d <conf> to update /etc/<conf>.
+.SH STANDARDS
+update-conf.d was written with a POSIX shell in mind, i.e. it
+.B should
+be able to run on any POSIX compliant shell. It uses the standard shebang /bin/sh.
+.SH BUGS
+There are bugs in all this. You use this script, the manpage and all additional content of this project at your own risk.
+.B Make backups!
+.SH SECURITY CONSIDERATIONS
+Normally this script must be run as root, because it will have to change files in /etc, unless you set different file permissions specifically for this script.
+.B Make backups!
+.SH COPYRIGHT
+The update-conf.d script, this manual all files included in this package are released under the terms of the GNU GENERAL PUBLIC LICENSE version 2 or, at your option, any later version.
+.br
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
+.SH AUTHOR
+This manual page was written by Atha directly in nroff format.
