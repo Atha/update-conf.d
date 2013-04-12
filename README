@@ -51,13 +51,13 @@ anything other than /.
 Usage
 -----
 
-<conf> is any configuration file you like to make *.d*'ed, i.e. split into
+<conf> is any configuration file you like to make .d'ed, i.e. split into
 snippets. When reading this, simply substitute <conf> by the name of the
 configuration file you want to process. Examples: fstab, hosts
 
 Copy existing configuration:
 
-  Copy it to a (newly created) *.d*'ed directory:
+  Copy it to a (newly created) .d'ed directory:
 
         cd /etc
         mkdir <conf>.d
