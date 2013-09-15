@@ -29,10 +29,24 @@ If you want to contribute: every improvement, fix, patch is welcome!
 Installation
 ------------
 
-Run make.
+There are two versions: simple and complex.
 
-    make build
+To build the complex version:
+
+    make complex
     make install
+
+The simple version may be preferred when size and speed is a concern. It
+has less options, but is much simpler, allowing easier modification to the
+script itself, should it be needed.
+
+To build the simple version:
+
+    make simple
+    make install
+
+It basically does the same as the complex version, so the usage should be
+almost exactly the same.
 
 You will then have to manage /etc/update-conf.d.conf right after the
 installation, or update-conf.d will have no function.
@@ -50,6 +64,9 @@ anything other than /.
 
 Usage
 -----
+
+Please read the man page for options included in the complex version.
+The following will work also for the simple version:
 
 <conf> is any configuration file you like to make .d'ed, i.e. split into
 snippets. When reading this, simply substitute <conf> by the name of the
@@ -146,6 +163,8 @@ Versioning
 
 No version numbers are used, instead the date in the ISO format (2008-01-20) is
 used as the version identification.
+
+There are two versions: a simple and a complex version.
 
 The original script update-fstab is depricated and only included for
 completeness and historical nostalgia. Don't use it.

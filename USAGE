@@ -1,3 +1,6 @@
+USAGE FILE FOR SIMPLE VERSION OF THE UPDATE-CONF.D SCRIPT
+For information about the COMPLEX version refer to the man page.
+
 INSTALLATION
 ============
 
@@ -6,7 +9,7 @@ Download it from GitHub:
   cd update-conf.d
 
 Run the following commands while in this directory:
-1) make build
+1) make simple
 2) make install
    this will
    b) copy update-conf.d to /usr/local/sbin

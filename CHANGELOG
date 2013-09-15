@@ -1,3 +1,13 @@
+* 2013-09-15
+  - Manuals updated. The man page is intended to explain all options
+    of the complex version.
+  - Makefile updated. Target "build" no longer exists. Use one of:
+    * make complex
+    * make simple
+    * make build for both versions (default)
+  - Makefile: also install man page
+  - The complex version should now be the default. It should work.
+
 * 2013-04-10
   - complex version: minor fixes, shebang corrected
 

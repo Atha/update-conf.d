@@ -7,8 +7,51 @@ update-conf.d \- Script for flexible /etc/<conf>.d configuration
 .B update-conf.d
 .RI [options]
 .I [<conf> ...]
+.sp
+.B VERSION
+.sp
+There are two version of this script:
+.B simple
+and
+.B complex.
+The
+.B OPTIONS
+section in this man page is for the complex version only.
+.br
+The default is to have the complex version installed.
+.sp
+The
+.B simple
+version does not support options aside from showing valid <conf> entries.
+It is intended to be used on systems where size and speed are more important than usability.
+.sp
+.B PREFIX
+.sp
+During installation the update-conf.d script can be prefixed i.e. a prefix path will precede all path statements.
+.sp
+The default is that the prefix is empty, resulting in /etc as the primary configuration path and /usr/local/sbin as the scripts installation path.
+In case of a prefixed installation the path will be
+.I $PREFIX/etc
+and
+.I $PREFIX/usr/local/sbin
+and so on.
+.sp
+.B Example:
+if $PREFIX is /chroot, then
+.IP
+.nf
+/etc will become /chroot/etc
+.fi
+.PP
+and
+.IP
+.nf
+/usr/local/sbin will become /chroot/usr/local/sbin
+.fi
+.PP
+This man page was written with a non-prefixed installation in mind. If you used a $PREFIX, add it to every path mentioned in this man page.
 .SH DESCRIPTION
-The idea behind update-conf.d is to split existing or new configuration files into snippets for easier management. It originated from a simple bash script called update-fstab that did this for specifically for /etc/fstab. It was then modified to be more versatile and can now handle every system-wide configuration file inside /etc.
+The idea behind update-conf.d is to split existing or new configuration files into snippets for easier management. It originated from a simple bash script called update-fstab that did this specifically for /etc/fstab. Since others liked the idea it was modified to be more versatile and can now handle every system-wide configuration file inside /etc.
 .sp
 .B CONCEPT
 .TP
@@ -33,7 +76,7 @@ If you rely on applications to update your /etc/<conf>, you must manually add th
 .SH OPTIONS
 .TP
 .B \-1
-Run-once. This ignores the list of valid <conf> entries, but still requires a /etc/<conf>.d directory to be present (naturally).
+Run-once. This ignores the list of valid <conf> entries, but still requires a /etc/<conf>.d directory to be present, naturally.
 .sp
 Useful when no configuration file (/etc/update-conf.d.conf) is present at all.
 .TP
@@ -45,9 +88,9 @@ Useful to add <conf> to the list and update it at the same time.
 .B \-a
 This option will automatically process all entries from the configuration file /etc/update-conf.d.conf.
 .br
-If invoked together with -s and -u, the latter options will be ignored, i.e. -a takes precedence.
+If invoked together with -s and -u, the latter options will be ignored i.e. -a takes precedence.
 .br
-Implies -c (continue on error). This ensures, if one entry is invalid or has errors, the following entries will be processed nevertheless.
+Implies -c (continue on error). This ensures that in the case of one entry being invalid or having errors the following entries will be processed nevertheless.
 .TP
 .B \-c
 Continue on error. Self-explanatory.
@@ -60,9 +103,16 @@ Display a help page and exit.
 .B \-l
 Show a list of all valid <conf> entries to be processed.
 .sp
-This ensures that a user correctly sets up his/her system in order for update-conf.d to function properly. It also prevents unintended use und accidental overwriting of important system files.
+This list ensures that a user correctly sets up his/her system in order for update-conf.d to function properly. It also prevents unintended use und accidental overwriting of important system files.
 .sp
 This function actually does the same as cat /etc/update-conf.d.conf
+.sp
+.B NOTE:
+The
+.B simple
+version of this script uses
+.B ?
+for showing a list of all valid <conf> entries.
 .TP
 .B \-n
 Do nothing. This option does everything except actually writing and/or moving files.
@@ -91,13 +141,14 @@ Be verbose. This will display exactly which files are put together when updating
 .br
 Exception: when option -n is specified, the default is to be verbose. This cannot be unset.
 .SH ARGUMENTS
+Throughout the update-conf.d script and all its manuals and text files,
 .B <conf>
-Throughout the update-conf.d script and all its manuals and text files, <conf> is a substitute for a system-wide configuration file, in Unix-like systems typically found in /etc. Well known examples include /etc/fstab or /etc/hosts.
+is a substitute for a system-wide configuration file, on Unix-like systems typically found in /etc. Well known examples include /etc/fstab and /etc/hosts.
 .TP
 .B <conf>
 A valid <conf> entry from the list. If option -1 is used, a valid <conf> (i.e. directory /etc/<conf>.d) must still exist in order to successfully proceed.
 .sp
-The list of valid <conf> entries is stored in /etc/update-conf.d.conf. This file is a regular text file which can be edited with any text editor. It should contain one <conf> entry per line.
+The list of valid <conf> entries is stored in /etc/update-conf.d.conf. This file is a regular text file which can be edited with any text editor. It must contain one <conf> entry per line.
 .br
 Example:
 .IP
@@ -173,13 +224,21 @@ update-conf.d was written with a POSIX shell in mind, i.e. it
 .B should
 be able to run on any POSIX compliant shell. It uses the standard shebang /bin/sh.
 .SH BUGS
-There are bugs in all this. You use this script, the manpage and all additional content of this project at your own risk.
+There are bugs in all this. You use this script, the man page and all additional content of this project at your own risk.
 .B Make backups!
+.sp
+To report bugs or for any improvements at all (even spelling errors) you may contact the author over GitHub or at the Gentoo forum.
+.br
+.B https://github.com/Atha/update-conf.d
+.br
+.B https://forums.gentoo.org/viewtopic.php?p=6364143
 .SH SECURITY CONSIDERATIONS
 Normally this script must be run as root, because it will have to change files in /etc, unless you set different file permissions specifically for this script.
 .B Make backups!
+.sp
+Due to this and due to the nature of this little utility being a simple shell script, it may not be convenient on systems where certain security standards have to be met.
 .SH COPYRIGHT
-The update-conf.d script, this manual all files included in this package are released under the terms of the GNU GENERAL PUBLIC LICENSE version 2 or, at your option, any later version.
+The update-conf.d script, this manual and all files included in this package are released under the terms of the GNU GENERAL PUBLIC LICENSE version 2 or, at your option, any later version.
 .br
 It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
 .SH AUTHOR
