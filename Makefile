@@ -20,21 +20,20 @@ update-conf.d.complex:  update-conf.d.complex.in
 	-rm -f update-conf.d
 	-ln -s update-conf.d.complex update-conf.d
 
-install:
+installdirs:
 	install -d "$(INSTALLDIR)" "$(CONFIGDIR)" "$(SBINDIR)" "$(MANDIR)"
-	install -m 750 update-conf.d.simple "$(SBINDIR)"
-	install -m 750 update-conf.d.complex "$(SBINDIR)"
-	install -m 640 update-conf.d.8 "$(MANDIR)"
+
+update: installdirs
+	-install -m 750 update-conf.d.simple update-conf.d.complex "$(SBINDIR)"
 	install update-conf.d "$(SBINDIR)"
+	-rm -f "$(SBINDIR)/update-conf.d"
+	-test -e "$(SBINDIR)/update-conf.d.complex" && ln -s update-conf.d.complex "$(SBINDIR)/update-conf.d"
+	-test -e "$(SBINDIR)/update-conf.d.simple" && ln -s update-conf.d.simple "$(SBINDIR)/update-conf.d"
+	install -m 640 update-conf.d.8 "$(MANDIR)"
+
+install: update
 	-touch "$(CONFIGDIR)/update-conf.d.conf"
 	-chmod 644 "$(CONFIGDIR)/update-conf.d.conf"
-
-update:
-	install -d $(INSTALLDIR) $(CONFIGDIR) $(SBINDIR) $(MANDIR)
-	install -m 750 update-conf.d.simple $(SBINDIR)
-	install -m 750 update-conf.d.complex $(SBINDIR)
-	install -m 640 update-conf.d.8 $(MANDIR)
-	install update-conf.d $(SBINDIR)
 
 uninstall:
 	-rm -f "$(SBINDIR)/update-conf.d"
@@ -45,4 +44,4 @@ uninstall:
 clean:
 	-rm -f update-conf.d update-conf.d.simple update-conf.d.complex *~
 
-.PHONY: build simple complex update-conf.d.simple update-conf.d.complex install update uninstall clean
+.PHONY: build simple complex installdirs update install uninstall clean
