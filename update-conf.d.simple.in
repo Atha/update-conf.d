@@ -9,13 +9,13 @@
 # Fixes by javeree
 #
 # The included makefile assists easy installation:
-# "make clean" will clean previous build versions of this script.
+# "make clean" will clean previously built versions of this script.
 # "make simple install" will build and install it.
 # "make build install" builds and installs both versions.
 #
-# For installing, this script will be copied into /usr/local/sbin and is called
+# For installing, this script is copied into /usr/local/sbin and is called
 # update-conf.d for both the SIMPLE and the COMPLEX version.
-# However, you may find /usr/sbin a more suited place.
+# However, you may find /usr/sbin a more suited place. (Edit the Makefile.)
 #
 # You need to configure your <conf> entries in separate files in /etc/<conf>.d;
 # from the .d'ed directory only filenames starting with two digits are included!

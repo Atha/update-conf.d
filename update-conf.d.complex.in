@@ -14,15 +14,16 @@
 #
 #
 # The included makefile assists easy installation:
-# "make clean" will clean previous build versions of this script.
+# "make clean" will clean previously built versions of this script.
 # "make complex install" will build and install it.
 # "make build install" builds and installs both versions.
 #
-# For installing, this script will be copied into /usr/local/sbin and is called
+# For installing, this script is copied into /usr/local/sbin and is called
 # update-conf.d (a symlink) for both the SIMPLE and the COMPLEX version. This
 # symlink will point to update-conf.d.complex. If needed, you may also install
 # the simple version (update-conf.d.simple) and make sure the symlink points
 # to the complex version.
+# To install to any other location, e.g. /usr/sbin, edit the Makefile.
 #
 # You need to configure your <conf> entries in separate files in /etc/<conf>.d;
 # For your convenience, the -1 option is included to "run-once" without such an
@@ -66,7 +67,7 @@ flag_set=0
 flag_unset=0
 # flag_processall (command line option -a)
 flag_processall=0
-# flag_donothing (command line option -t)
+# flag_donothing (command line option -n)
 flag_donothing=0
 # flag_continueonerror (command line option -c)
 flag_continueonerror=0

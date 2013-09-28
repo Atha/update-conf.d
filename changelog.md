@@ -1,3 +1,6 @@
+## 2013-09-28
+* just a few typos fixed
+
 ## 2013-09-15
 * Manuals updated. The man page is intended to explain all options
   of the complex version.
