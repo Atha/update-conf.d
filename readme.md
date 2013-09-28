@@ -56,8 +56,7 @@ To uninstall, run make again.
 
     > make uninstall
 
-This will remove */usr/local/sbin/update-conf.d* and
-*/usr/local/sbin/update-fstab*.
+This will remove */usr/local/sbin/update-conf.d*.
 
 You can set the PREFIX variable in the *Makefile* if you want to install it
 into anything other than /.
