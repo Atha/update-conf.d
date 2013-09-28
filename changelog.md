@@ -1,4 +1,5 @@
 ## 2013-09-28
+* README and readme.md: make clean added
 * just a few typos fixed
 
 ## 2013-09-15

@@ -31,7 +31,11 @@ Installation
 
 There are two versions: simple and complex.
 
-To build the complex version:
+First, clean previously built versions:
+
+    make clean
+
+Then, to build the complex version:
 
     make complex
     make install
