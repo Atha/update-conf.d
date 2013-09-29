@@ -156,6 +156,17 @@ used as the version identification.
 The **original script _update-fstab_ is depricated** and only included for
 completeness and historical nostalgia. Don't use it.
 
+Adaptation
+----------
+
+If you require such a script for a very specific task, you may want to modify
+it to what is needed for this very task. For that you may find the *simple*
+version of the update-conf.d script or even the *depricated update-fstab* script
+more convenient, since both are certainly simpler and easier to adapt than the
+*complex* version.
+If you do consider modification to the *complex* version, be advised that the
+main function is ``update_confd ()``.
+
 Contribution
 ------------
 
