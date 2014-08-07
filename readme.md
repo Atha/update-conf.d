@@ -22,6 +22,22 @@ If you want to contribute: every improvement, fix, patch is welcome!
 
 2012-01-05, *Atha*
 
+Debian libmount
+---------------
+
+**WARNING**
+
+"update-conf.d fstab" is incompatible with
+[Debian bug #663623](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=663623)
+which adds */etc/fstab.d* support in *libmount*, part of *util-linux*. Adding
+support to the mount command was discussed by certain developers on the
+[LKML](https://lkml.org/lkml/2012/1/20/104), but not *yet* implemented.
+Nevertheless on Debian based system */etc/fstab.d* already exists and is
+propably used by libmount.
+
+Hence, be very very careful when you use update-conf.d with */etc/fstab* on a
+Debian based distribution!
+
 Installation
 ------------
 
@@ -146,6 +162,12 @@ Concept
      Otherwise it will be lost the next time you run *update-conf.d*. Some
      Linux distributions update */etc/fstab* and */etc/hosts* (and possibly
      others) when the system configuration is changed.
+   * On some systems, other utilities may already use a *.d*'ed directory in
+     /etc, which makes it impossible to use update-conf.d without a PREFIX. One
+     example is Debian's *libmount* (since around 2011) which uses
+     */etc/fstab.d*.
+     As a sane precaution you should not create a *.d*-ed directory for this
+     script when there already is one!
 
 Versioning
 ----------
@@ -179,7 +201,7 @@ Copyright and license
 Copyright © 2013 javeree  
 Copyright © 2011 Nicolas Bercher  
 Copyright © 2010 truc (on improvements)  
-Copyright © 2008-2013 Atha
+Copyright © 2008-2014 Atha
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
 Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your

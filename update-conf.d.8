@@ -1,5 +1,5 @@
 .\"                                      Hey, EMACS: -*- nroff -*-
-.TH update-conf.d 8 2013-09-15 "version 2013-09-15" "Atha"
+.TH update-conf.d 8 2014-08-07 "version 2013-09-15" "Atha"
 .\" Please adjust the date whenever revising this manpage.
 .SH NAME
 update-conf.d \- Script for flexible /etc/<conf>.d configuration
@@ -73,6 +73,11 @@ Applications or self written scripts cannot harm your <conf> file by destroying 
 Yes.
 .sp
 If you rely on applications to update your /etc/<conf>, you must manually add this update to your /etc/<conf>.d/00something snippet. Otherwise it will be lost the next time you run update-conf.d. Some Linux distributions update /etc/fstab and /etc/hosts (and possibly others) when the system configuration is changed.
+.sp
+On some systems, other utilities may already use a .d'ed directory in /etc, which makes it impossible to use update-conf.d without a PREFIX. One example is
+.B Debian's libmount
+(since around 2011) which uses /etc/fstab.d.
+As a sane precaution you should not create a .d-ed directory for this script when there already is one!
 .SH OPTIONS
 .TP
 .B \-1

@@ -1,3 +1,8 @@
+## 2014-08-07
+* WARNING added: "update-conf.d fstab" is incompatible with
+  [Debian bug #663623](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=663623):
+  /etc/fstab.d support in libmount and in util-linux.
+
 ## 2013-09-28
 * README and readme.md: make clean added
 * just a few typos fixed
