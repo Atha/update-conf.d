@@ -24,7 +24,8 @@ installdirs:
 	install -d "$(INSTALLDIR)" "$(CONFIGDIR)" "$(SBINDIR)" "$(MANDIR)"
 
 update: installdirs
-	-install -m 750 update-conf.d.simple update-conf.d.complex "$(SBINDIR)"
+	-install -m 750 update-conf.d.complex "$(SBINDIR)"
+	-install -m 750 update-conf.d.simple "$(SBINDIR)"
 	install update-conf.d "$(SBINDIR)"
 	-rm -f "$(SBINDIR)/update-conf.d"
 	-test -e "$(SBINDIR)/update-conf.d.complex" && ln -s update-conf.d.complex "$(SBINDIR)/update-conf.d"
