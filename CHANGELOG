@@ -1,3 +1,7 @@
+* 2015-07-23
+  - makefile fix (by Mic92, thanks!)
+  - documentation fix: Debian 8 no longer uses /etc/fstab.d.
+
 * 2014-08-07
   - WARNING added: "update-conf.d fstab" is incompatible with Debian
     bug #663623: /etc/fstab.d support in libmount and in util-linux.

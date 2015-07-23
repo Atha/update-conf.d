@@ -36,15 +36,17 @@ W A R N I N G
 mount command was discussed by certain developers on the LKML but not yet
 implemented.
 
-Nevertheless on Debian based system /etc/fstab.d already exists and is propably
-used by libmount.
+Nevertheless on a Debian 6 and 7 system /etc/fstab.d already exists and is
+probably used by libmount.
 
 Hence, be very very careful when you use update-conf.d with /etc/fstab on a
-Debian based distribution!
+Debian 6/7 based distribution!
 
 * http://comments.gmane.org/gmane.linux.utilities.util-linux-ng/5077
 * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=663623
 * https://lkml.org/lkml/2012/1/20/104
+
+In Debian 8 (2015) this libmount behaviour was removed.
 
 
 Installation
@@ -183,7 +185,8 @@ Concept
 
    * On some systems, other utilities may already use a .d'ed directory in
      /etc, which makes it impossible to use update-conf.d without a PREFIX. One
-     example is Debian's libmount (since around 2011) which uses /etc/fstab.d.
+     example is Debian's libmount (since around 2011, until 2015) which uses
+     /etc/fstab.d.
      As a sane precaution you should not create a .d-ed directory for this
      script when there already is one!
 
@@ -222,10 +225,11 @@ highly appreciated!
 Copyright and license
 ---------------------
 
+Copyright (c) 2015 Mic92 (fixes)
 Copyright (c) 2013 javeree
 Copyright (c) 2011 Nicolas Bercher
 Copyright (c) 2010 truc (on improvements)
-Copyright (c) 2008-2014 Atha
+Copyright (c) 2008-2015 Atha
 
 This script is released under the terms of the GNU GENERAL PUBLIC LICENSE
 Version 2 or (at your option) any later version.

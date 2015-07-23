@@ -1,6 +1,6 @@
 * 2015-01-24
   - I discovered that in current Debian testing (pre-8.0) a cleanup of
-    util-linux has removed /etc/fstab.d from libmount. (atha)
+    util-linux has removed /etc/fstab.d from libmount. (atha) --FIXED IN DOCs
 
 * 2014-12
   - I discovered that update-conf.d works without /etc/update-conf.d.conf on

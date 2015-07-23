@@ -32,11 +32,11 @@ Debian libmount
 which adds */etc/fstab.d* support in *libmount*, part of *util-linux*. Adding
 support to the mount command was discussed by certain developers on the
 [LKML](https://lkml.org/lkml/2012/1/20/104), but not *yet* implemented.
-Nevertheless on Debian based system */etc/fstab.d* already exists and is
-propably used by libmount.
+On a Debian 6 and 7 system */etc/fstab.d* already exists and is probably used
+by libmount. Hence, be very very careful when you use update-conf.d with
+*/etc/fstab* on a Debian 6/7 based distribution!
 
-Hence, be very very careful when you use update-conf.d with */etc/fstab* on a
-Debian based distribution!
+In Debian 8 (2015) this libmount behaviour was removed.
 
 Installation
 ------------
@@ -164,7 +164,7 @@ Concept
      others) when the system configuration is changed.
    * On some systems, other utilities may already use a *.d*'ed directory in
      /etc, which makes it impossible to use update-conf.d without a PREFIX. One
-     example is Debian's *libmount* (since around 2011) which uses
+     example is Debian's *libmount* (since around 2011, until 2015) which uses
      */etc/fstab.d*.
      As a sane precaution you should not create a *.d*-ed directory for this
      script when there already is one!
@@ -198,10 +198,11 @@ highly appreciated!
 Copyright and license
 ---------------------
 
+Copyright © 2015 Mic92 (fixes)  
 Copyright © 2013 javeree  
 Copyright © 2011 Nicolas Bercher  
 Copyright © 2010 truc (on improvements)  
-Copyright © 2008-2014 Atha
+Copyright © 2008-2015 Atha
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
 Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your
