@@ -33,8 +33,6 @@ update: installdirs
 	install -m 640 update-conf.d.8 "$(MANDIR)"
 
 install: update
-	-touch "$(CONFIGDIR)/update-conf.d.conf"
-	-chmod 644 "$(CONFIGDIR)/update-conf.d.conf"
 
 uninstall:
 	-rm -f "$(SBINDIR)/update-conf.d"

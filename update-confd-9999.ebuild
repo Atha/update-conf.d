@@ -44,5 +44,4 @@ src_compile() {
         emake install
 
         dodoc ${DOCS}
-#        use complex && doman update-conf.d.8
 }

@@ -230,7 +230,7 @@ update_confd () {
   if ! scriptconf_find ${1} ; then
     # don't display a warning AND don't exit if either option -s (i.e. set) or -u (i.e. unset) is also used
     # INVERSE: do exit if -s/-u is not used
-    if [ ! ${flag_set} -eq 1 ] || [ ! ${flag_unset} -eq 1 ] ; then
+    if [ ! ${flag_set} -eq 1 ] && [ ! ${flag_unset} -eq 1 ] ; then
       warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
       fail 2
     fi
