@@ -97,16 +97,16 @@ fail () {
 #####################
 
 ## check, if $scripconf is present (available): return 1 if not
-## don't care if flag_runonce and/or flag_set are used
 scriptconf_checksilent () {
-  [ ${flag_set} -eq 1 ] && return 0
-  [ ${flag_runonce} -eq 1 ] && return 0
   [ -f "${scriptconf}" ] && return 0
   return 1
 }
 
 ## check, if $scripconf is present (available): exit with warning if not
+## don't care if flag_runonce and/or flag_set are used
 scriptconf_check () {
+  [ ${flag_set} -eq 1 ] && return 0
+  [ ${flag_runonce} -eq 1 ] && return 0
   if ! scriptconf_checksilent ; then
     warning "${scriptname}: script configuration file '${scriptconf}' not found!"
     warning "Running \"${scriptname} -s <conf>\" will automatically create it, adding <conf> as a valid entry."
@@ -151,7 +151,7 @@ print_usage () {
 }
 
 scriptconf_findsilent () {
-  grep "^${1}$" "${scriptconf}" > /dev/null 2>&1 && return 0
+  scriptconf_checksilent && grep "^${1}$" "${scriptconf}" > /dev/null 2>&1 && return 0
   return 1
 }
 
@@ -173,11 +173,11 @@ scriptconf_list () {
 
 ## option -s (set): add $1 (argument to this function)
 scriptconf_add () {
-  if scriptconf_checksilent && scriptconf_findsilent ${1} ; then
-    message "${scriptname}: Configuration file '${scriptconf}' did not yet exist..."
+  if ! scriptconf_checksilent ; then
+    message "${scriptname}: Configuration file '${scriptconf}' will be created..."
   fi
-  if [ $(scriptconf_findsilent ${1}) ] ; then
-    message "${scriptname}: Item already in list of valid entries: ${1}"
+  if scriptconf_findsilent ${1} ; then
+    message "${scriptname}: \"${1}\" is already in the list of valid entries."
   else
     echo ${1} >> "${scriptconf}"
     message "${scriptname}: Item added to list of valid entries: ${1}"
@@ -188,7 +188,12 @@ scriptconf_add () {
 ## option -u (unset): remove $1 (argument to this function)
 scriptconf_remove () {
   if scriptconf_checksilent && scriptconf_findsilent ${1} ; then
-    mv "${scriptconf}" "${scriptconf}.bak" && grep -v "^${1}$" "${scriptconf}.bak" > "${scriptconf}" && message "${scriptname}: Item removed from list of valid entries: ${1}" && return 0
+    # FIX ME: the success of grep is not checked!
+    # grep doesn't seem to return 0 on success and the message would never be displayed (and the function would not return 0)
+    mv "${scriptconf}" "${scriptconf}.bak" && grep -v "^${1}$" "${scriptconf}.bak" > "${scriptconf}"
+    message "${scriptname}: Item removed from list of valid entries: ${1}"
+    # FIX ME: this function will always return 0, even when grep was not successfull...
+    return 0
   fi
   return 1
 }
@@ -204,8 +209,6 @@ update_confd () {
     exit 100
 #    return 1
   fi
-
-  message "Processing <conf> entry: ${1}"
 
   ################
   ## CONFIGURATION
@@ -225,15 +228,22 @@ update_confd () {
 
   # check if <conf> is available in list (or run-once)
   if ! scriptconf_find ${1} ; then
-    # don't display a warning AND don't exit if option -s (i.e. set) is also used
-    # INVERSE: do exit if -s is not used
-    if [ ! ${flag_set} -eq 1 ] ; then
+    # don't display a warning AND don't exit if either option -s (i.e. set) or -u (i.e. unset) is also used
+    # INVERSE: do exit if -s/-u is not used
+    if [ ! ${flag_set} -eq 1 ] || [ ! ${flag_unset} -eq 1 ] ; then
       warning "${scriptname}: not allowed to process ${conf}. Add it to the list or use run-once."
       fail 2
     fi
     # in case of -s without -1 (checked by scriptconf_find): simply return... silently...
+    # in case of -u, don't contine with this one, but continue with the whole... (to unset them all...)
     return 1
   fi
+
+  ###########
+  ## STARTING
+  ###########
+
+  message "Processing <conf> entry: ${1}"
 
   # check if <conf>.d directory exists
   if [ ! -d "${dpath}" ] ; then
@@ -276,6 +286,7 @@ EOT
   mv -f "${dconfpath}" "${confpath}" && message "New configuration file ${dconfpath} moved to ${confpath}"
 
   warning "${scriptname}: ${confpath} updated."
+  message
   return 0
 }
 
@@ -368,7 +379,6 @@ scriptconf_check
 for PARAM; do
   [ ${flag_unset} -eq 1 ] && scriptconf_remove ${PARAM}
   update_confd ${PARAM}
-  message
   [ ${flag_set} -eq 1 ] && scriptconf_add ${PARAM}
 done
 
