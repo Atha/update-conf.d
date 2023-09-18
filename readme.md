@@ -22,8 +22,8 @@ If you want to contribute: every improvement, fix, patch is welcome!
 
 2012-01-05, *Atha*
 
-Debian libmount
----------------
+Debian 6/7 libmount
+-------------------
 
 **WARNING**
 
@@ -77,6 +77,21 @@ This will remove */usr/local/sbin/update-conf.d*.
 You can set the PREFIX variable in the *Makefile* if you want to install it
 into anything other than /.
 
+Gentoo Linux
+------------
+
+It's very easy to install update-conf.d on Gentoo Linux. The following example
+assumes ``/usr/local/portage`` as your local portage directory (see Gentoo Wiki
+pages [Ebuild repository](https://wiki.gentoo.org/wiki/Ebuild_repository) and
+[/etc/portage/repos.conf](https://wiki.gentoo.org/wiki//etc/portage/repos.conf)
+for more information):
+
+    > mkdir -p /usr/local/portage/app-admin/update-conf
+    > wget -O /usr/local/portage/app-admin/update-conf/update-conf-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-conf-9999.ebuild
+
+The update-conf.d script will then be available for installation via portage:
+
+    > emerge -a app-admin/update-conf
 
 Usage
 -----
@@ -202,7 +217,7 @@ Copyright © 2015 Mic92 (fixes)
 Copyright © 2013 javeree  
 Copyright © 2011 Nicolas Bercher  
 Copyright © 2010 truc (on improvements)  
-Copyright © 2008-2015 Atha
+Copyright © 2008-2023 Atha
 
 This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
 Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your
