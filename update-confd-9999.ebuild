@@ -3,9 +3,11 @@
 EAPI=7
 inherit git-r3
 
+MY_PN="update-conf.d"
+
 DESCRIPTION="shell script for flexible /etc/<conf>.d configuration"
 HOMEPAGE="https://forums.gentoo.org/viewtopic.php?p=6364143"
-EGIT_REPO_URI="git://github.com/Atha/${PN}.d"
+EGIT_REPO_URI="https://github.com/Atha/${MY_PN}"
 
 LICENSE="GPL-2"
 SLOT="0"

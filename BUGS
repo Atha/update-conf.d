@@ -4,7 +4,6 @@
 
 * 2014-12
   - I discovered that update-conf.d works without /etc/update-conf.d.conf on
-    at least Debian testing (post-7.7 pre-8.0) -- the file is simply ignored
-    and update-conf.d works as if <conf> was checked positively with
-    /etc/update-conf.d.conf.
+    at least Debian -- the file is simply ignored and update-conf.d works as
+    if <conf> was checked positively with /etc/update-conf.d.conf.
     This does not happen under Gentoo Linux... (atha)

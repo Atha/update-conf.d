@@ -43,11 +43,11 @@ GENTOO LINUX EBUILD
 ===================
 
 If you use Gentoo Linux, you might be interested in using the ebuild to perform
-the installation. Just copy update-conf-9999.ebuild to your portage overlay,
-say to app-admin/update-conf, then run "ebuild update-conf-9999.ebuild digest"
-on it.
+the installation. Just copy update-confd-9999.ebuild to your portage overlay,
+say to app-admin/update-confd.
+
 You can then use portage to install the shell script for you:
-"emerge update-conf"
+"emerge update-confd"
 
 
 USAGE

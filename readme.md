@@ -33,11 +33,11 @@ Debian 6/7 libmount
 which adds */etc/fstab.d* support in *libmount*, part of *util-linux*. Adding
 support to the mount command was discussed by certain developers on the
 [LKML](https://lkml.org/lkml/2012/1/20/104), but not *yet* implemented.
-On a Debian 6 and 7 system */etc/fstab.d* already exists and is probably used
-by libmount. Hence, be very very careful when you use update-conf.d with
-*/etc/fstab* on a Debian 6/7 based distribution!
+On a Debian 6 "Squeeze" and 7 "Wheezy" system */etc/fstab.d* already exists and
+is probably used by libmount. Hence, be very very careful when you use
+update-conf.d with */etc/fstab* on a Debian 6/7 based distribution!
 
-In Debian 8 (2015) this libmount behaviour was removed.
+In Debian 8 "Jessie" (2015) this libmount behaviour was removed.
 
 Installation
 ------------
@@ -87,12 +87,12 @@ pages [Ebuild repository](https://wiki.gentoo.org/wiki/Ebuild_repository) and
 [/etc/portage/repos.conf](https://wiki.gentoo.org/wiki//etc/portage/repos.conf)
 for more information):
 
-    mkdir -p /usr/local/portage/app-admin/update-conf
-    wget -O /usr/local/portage/app-admin/update-conf/update-conf-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-conf-9999.ebuild && (cd /usr/local/portage/app-admin/update-conf; ebuild update-conf-9999.ebuild digest)
+    mkdir -p /usr/local/portage/app-admin/update-confd
+    wget -O /usr/local/portage/app-admin/update-confd/update-confd-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-confd-9999.ebuild
 
 The update-conf.d script will then be available for installation via portage:
 
-    emerge -a app-admin/update-conf
+    emerge -a app-admin/update-confd
 
 Usage
 -----

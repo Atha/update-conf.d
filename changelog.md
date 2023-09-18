@@ -1,6 +1,7 @@
 ## 2023-09-18
 * documentation updated (cosmetics; simple Gentoo Linux installation example added)
 * small change in behaviour of complex version: -s (set <conf> entry) now creates the configuration file, if it doesn't exist...
+* Gentoo Linux ebuild renamed, use of https instead of git protocol
 
 ## 2015-07-23
 * makefile fix (by Mic92, thanks!)

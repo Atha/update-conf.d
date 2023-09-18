@@ -17,7 +17,7 @@ Since then a few people have made enhancements, and the shell script is now
 even able to handle any <conf>.d directory in the same way. It is now called
 update-conf.d.
 
-In October 2011 I created a GIT repository, so you can download it easily using
+In October 2011 I created a Git repository, so you can download it easily using
 
     git clone git://github.com/Atha/update-conf.d.git
 
@@ -37,8 +37,8 @@ W A R N I N G
 mount command was discussed by certain developers on the LKML but not yet
 implemented.
 
-Nevertheless on a Debian 6 and 7 system /etc/fstab.d already exists and is
-probably used by libmount.
+Nevertheless on a Debian 6 "Squeeze" and 7 "Wheezy" system /etc/fstab.d already
+exists and is probably used by libmount.
 
 Hence, be very very careful when you use update-conf.d with /etc/fstab on a
 Debian 6/7 based distribution!
@@ -47,7 +47,7 @@ Debian 6/7 based distribution!
 * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=663623
 * https://lkml.org/lkml/2012/1/20/104
 
-In Debian 8 (2015) this libmount behaviour was removed.
+In Debian 8 "Jessie" (2015) this libmount behaviour was removed.
 
 
 Installation
@@ -97,12 +97,12 @@ assumes /usr/local/portage as your local portage directory (see Gentoo Wiki
 pages https://wiki.gentoo.org/wiki/Ebuild_repository and https://wiki.gentoo.org/wiki//etc/portage/repos.conf
 for more information):
 
-    mkdir -p /usr/local/portage/app-admin/update-conf
-    wget -O /usr/local/portage/app-admin/update-conf/update-conf-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-conf-9999.ebuild
+    mkdir -p /usr/local/portage/app-admin/update-confd
+    wget -O /usr/local/portage/app-admin/update-confd/update-confd-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-confd-9999.ebuild
 
 The update-conf.d script will then be available for installation via portage:
 
-    emerge -a app-admin/update-conf
+    emerge -a app-admin/update-confd
 
 
 Usage
@@ -246,7 +246,7 @@ Copyright (c) 2015 Mic92 (fixes)
 Copyright (c) 2013 javeree
 Copyright (c) 2011 Nicolas Bercher
 Copyright (c) 2010 truc (on improvements)
-Copyright (c) 2008-2015 Atha
+Copyright (c) 2008-2023 Atha
 
 This shell script is released under the terms of the GNU GENERAL PUBLIC LICENSE
 Version 2 or (at your option) any later version.
