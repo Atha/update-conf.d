@@ -176,8 +176,12 @@ scriptconf_add () {
   if scriptconf_checksilent && scriptconf_findsilent ${1} ; then
     message "${scriptname}: Configuration file '${scriptconf}' did not yet exist..."
   fi
-  echo ${1} >> "${scriptconf}"
-  message "${scriptname}: Item added to list of valid entries: ${1}"
+  if [ $(scriptconf_findsilent ${1}) ] ; then
+    message "${scriptname}: Item already in list of valid entries: ${1}"
+  else
+    echo ${1} >> "${scriptconf}"
+    message "${scriptname}: Item added to list of valid entries: ${1}"
+  fi
   return 0
 }
 
