@@ -1,8 +1,8 @@
 .\"                                      Hey, EMACS: -*- nroff -*-
-.TH update-conf.d 8 2015-07-23 "version 2013-09-15" "Atha"
+.TH update-conf.d 8 2023-09-18 "version 2013-09-15" "Atha"
 .\" Please adjust the date whenever revising this manpage.
 .SH NAME
-update-conf.d \- Script for flexible /etc/<conf>.d configuration
+update-conf.d \- Shell script for flexible /etc/<conf>.d configuration
 .SH SYNOPSIS
 .B update-conf.d
 .RI [options]
@@ -10,7 +10,7 @@ update-conf.d \- Script for flexible /etc/<conf>.d configuration
 .sp
 .B VERSION
 .sp
-There are two version of this script:
+There are two version of this shell script:
 .B simple
 and
 .B complex.
@@ -65,7 +65,7 @@ Your /etc/<conf> is now reproducable by running the update-conf.d script. Accide
 .sp
 You can experiment with <conf> by changing it, which will only be temporary until you re-run update-conf.d.
 .sp
-You can easily disable a snippet by renaming it to not start with two digets. The script will then ignore it and thus it will not be included in /etc/<conf> when you run update-conf.d.
+You can easily disable a snippet by renaming it to not start with two digets. The shell script will then ignore it and thus it will not be included in /etc/<conf> when you run update-conf.d.
 .sp
 Applications or self written scripts cannot harm your <conf> file by destroying it (accidentally).
 .TP
@@ -77,7 +77,7 @@ If you rely on applications to update your /etc/<conf>, you must manually add th
 On some systems, other utilities may already use a .d'ed directory in /etc, which makes it impossible to use update-conf.d without a PREFIX. One example is
 .B Debian's libmount
 which uses /etc/fstab.d (since around 2011, until 2015).
-As a sane precaution you should not create a .d-ed directory for this script when there already is one!
+As a sane precaution you should not create a .d-ed directory for this shell script when there already is one!
 .SH OPTIONS
 .TP
 .B \-1
@@ -115,7 +115,7 @@ This function actually does the same as cat /etc/update-conf.d.conf
 .B NOTE:
 The
 .B simple
-version of this script uses
+version of this shell script uses
 .B ?
 for showing a list of all valid <conf> entries.
 .TP
@@ -229,7 +229,7 @@ update-conf.d was written with a POSIX shell in mind, i.e. it
 .B should
 be able to run on any POSIX compliant shell. It uses the standard shebang /bin/sh.
 .SH BUGS
-There are bugs in all this. You use this script, the man page and all additional content of this project at your own risk.
+There are bugs in all this. You use this shell script, the man page and all additional content of this project at your own risk.
 .B Make backups!
 .sp
 To report bugs or for any improvements at all (even spelling errors) you may contact the author over GitHub or at the Gentoo forum.
@@ -238,7 +238,7 @@ To report bugs or for any improvements at all (even spelling errors) you may con
 .br
 .B https://forums.gentoo.org/viewtopic.php?p=6364143
 .SH SECURITY CONSIDERATIONS
-Normally this script must be run as root, because it will have to change files in /etc, unless you set different file permissions specifically for this script.
+Normally this shell script must be run as root, because it will have to change files in /etc, unless you specifically set different file permissions.
 .B Make backups!
 .sp
 Due to this and due to the nature of this little utility being a simple shell script, it may not be convenient on systems where certain security standards have to be met.

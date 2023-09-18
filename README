@@ -5,22 +5,23 @@ update-conf.d script for flexible /etc/<conf>.d configuration
 Origin
 ------
 
-In January 2008 I wrote a very simple script to manage fstab entries in the way
-like environment variables in /etc/env.d are managed. For this I created
-separated fstab files in /etc/fstab.d and wrote a script called update-fstab.
+In January 2008 I wrote a very simple shell script to manage fstab entries in
+the way like environment variables in /etc/env.d are managed. For this I
+created separated fstab files in /etc/fstab.d and wrote a shell script called
+update-fstab.
 
 I then released it in 2010 on the Gentoo Forum in the hope that it would be
 useful to anyone.  http://forums.gentoo.org/viewtopic.php?p=6364143
 
-Since then a few people have made enhancements, and the script is now even able
-to handle any <conf>.d directory in the same way. It is now called
+Since then a few people have made enhancements, and the shell script is now
+even able to handle any <conf>.d directory in the same way. It is now called
 update-conf.d.
 
 In October 2011 I created a GIT repository, so you can download it easily using
 
     git clone git://github.com/Atha/update-conf.d.git
 
-or visit https://github.com/Atha/update-conf.d to view the script there.
+or visit https://github.com/Atha/update-conf.d to view the shell script there.
 If you want to contribute: every improvement, fix, patch is welcome!
 
 2012-01-05, Atha
@@ -65,7 +66,7 @@ Then, to build the complex version:
 
 The simple version may be preferred when size and speed is a concern. It
 has less options, but is much simpler, allowing easier modification to the
-script itself, should it be needed.
+shell script itself, should it be needed.
 
 To build the simple version:
 
@@ -183,8 +184,8 @@ Concept
      temporary until you re-run update-conf.d.
 
    * You can easily disable a snippet by renaming it to not start with two
-     digets. The script will then ignore it and thus it will not be included in
-     /etc/<conf> when you run update-conf.d.
+     digets. The shell script will then ignore it and thus it will not be
+     included in /etc/<conf> when you run update-conf.d.
 
    * Applications or self written scripts cannot harm your <conf> file by
      destroying it (accidentally).
@@ -204,7 +205,7 @@ Concept
      example is Debian's libmount (since around 2011, until 2015) which uses
      /etc/fstab.d.
      As a sane precaution you should not create a .d-ed directory for this
-     script when there already is one!
+     shell script when there already is one!
 
 
 Versioning
@@ -215,18 +216,18 @@ used as the version identification.
 
 There are two versions: a simple and a complex version.
 
-The original script update-fstab is depricated and only included for
+The original shell script update-fstab is depricated and only included for
 completeness and historical nostalgia. Don't use it.
 
 
 Adaptation
 ----------
 
-If you require such a script for a very specific task, you may want to modify
-it to what is needed for this very task. For that you may find the simple
-version of the update-conf.d script or even the depricated update-fstab script
-more convenient, since both are certainly simpler and easier to adapt than the
-complex version.
+If you require such a shell script for a very specific task, you may want to
+modify it to what is needed for this very task. For that you may find the
+simple version of the update-conf.d script or even the depricated update-fstab
+script more convenient, since both are certainly simpler and easier to adapt
+than the complex version.
 If you do consider modification to the complex version, be advised that the
 main function is update_confd ().
 
@@ -247,6 +248,6 @@ Copyright (c) 2011 Nicolas Bercher
 Copyright (c) 2010 truc (on improvements)
 Copyright (c) 2008-2015 Atha
 
-This script is released under the terms of the GNU GENERAL PUBLIC LICENSE
+This shell script is released under the terms of the GNU GENERAL PUBLIC LICENSE
 Version 2 or (at your option) any later version.
 It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.

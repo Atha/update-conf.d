@@ -23,7 +23,7 @@ this as a regular user, provided you have write access to the PREFIX directory.
 You need to have write access to /etc and /usr/local/sbin in order to perform an
 unprefixed installation. Login as root to perform a system wide installation.
 
-BE CAREFUL AND USE THIS SCRIPT AT YOUR OWN RISK!
+BE CAREFUL AND USE THIS SHELL SCRIPT AT YOUR OWN RISK!
 
 
 UNINSTALLATION
@@ -46,14 +46,15 @@ If you use Gentoo Linux, you might be interested in using the ebuild to perform
 the installation. Just copy update-conf-9999.ebuild to your portage overlay,
 say to app-admin/update-conf, then run "ebuild update-conf-9999.ebuild digest"
 on it.
-You can then use portage to install the script for you: "emerge update-conf"
+You can then use portage to install the shell script for you:
+"emerge update-conf"
 
 
 USAGE
 =====
 
-Running "make install" will install the script and you will have to modulize the
-file you want to have ".d-ed" by yourself.
+Running "make install" will install the shell script and you will have to
+modulize the file you want to have ".d-ed" by yourself.
 
 Start by copying the desired file to a .d-ed directory.
 
@@ -72,7 +73,7 @@ You can now test-run your set-up:
 
   update-conf.d fstab
 
-You should see a similar output of the script:
+You should see a similar output of the shell script:
 
 --BEGIN-- SAMPLE OUTPUT --BEGIN--
 fstab
@@ -109,13 +110,13 @@ Edit these files so they only contain what the name suggests and so you don't
 have any doubles.
 Rename 00hosts:
   mv 00hosts hosts-backup
-NOTE: Filenames that don't start with two digits, like hosts-backup, will not be
-processed by the script. Since all your configuration for /etc/hosts should now
-be in seperate files (01loopback to 99temporary) you will have all your
-configuration lines available in the resulting /etc/hosts after running the
-script.
+NOTE: Filenames that don't start with two digits, like hosts-backup, will not
+be processed by the shell script. Since all your configuration for /etc/hosts
+should now be in seperate files (01loopback to 99temporary) you will have all
+your configuration lines available in the resulting /etc/hosts after running
+the shell script.
 
-Run the script:
+Run the shell script:
   update-conf.d hosts
 
 

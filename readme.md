@@ -5,19 +5,20 @@ update-conf.d script for flexible /etc/``<conf>``.d configuration
 Origin
 ------
 
-In January 2008 I wrote a very simple script to manage fstab entries in the way
-like environment variables in /etc/env.d are managed. For this I created
-separated fstab files in /etc/fstab.d and wrote a script called *update-fstab*.
+In January 2008 I wrote a very simple shell script to manage fstab entries in
+the way like environment variables in /etc/env.d are managed. For this I
+created separated fstab files in /etc/fstab.d and wrote a shell script called
+*update-fstab*.
 
 I then released it in 2010 on the
 [Gentoo Forum](http://forums.gentoo.org/viewtopic.php?p=6364143) in the hope
 that it would be useful to anyone.
 
-Since then a few people have made enhancements, and the script is now even able
-to handle any ``<conf>``.d directory in the same way. It is now called
-**update-conf.d**.
+Since then a few people have made enhancements, and the shell script is now
+even able to handle any ``<conf>``.d directory in the same way. It is now
+called **update-conf.d**.
 
-In October 2011 I created this GIT repository.
+In October 2011 I created this Git repository.
 If you want to contribute: every improvement, fix, patch is welcome!
 
 2012-01-05, *Atha*
@@ -45,21 +46,21 @@ There are two versions: *simple* and *complex.*
 
 First, clean previously built versions:
 
-    > make clean
+    make clean
 
 Then, to build the **complex** version:
 
-    > make complex
-    > make install
+    make complex
+    make install
 
 The **simple** version may be preferred when size and speed is a concern. It
 has less options, but is much simpler, allowing easier modification to the
-script itself, should it be needed.
+shell script itself, should it be needed.
 
 To build the simple version:
 
-    > make simple
-    > make install
+    make simple
+    make install
 
 It basically does the same as the complex version, so the usage should be
 almost exactly the same.
@@ -70,7 +71,7 @@ further details.
 
 To uninstall, run make again.
 
-    > make uninstall
+    make uninstall
 
 This will remove */usr/local/sbin/update-conf.d*.
 
@@ -86,12 +87,12 @@ pages [Ebuild repository](https://wiki.gentoo.org/wiki/Ebuild_repository) and
 [/etc/portage/repos.conf](https://wiki.gentoo.org/wiki//etc/portage/repos.conf)
 for more information):
 
-    > mkdir -p /usr/local/portage/app-admin/update-conf
-    > wget -O /usr/local/portage/app-admin/update-conf/update-conf-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-conf-9999.ebuild
+    mkdir -p /usr/local/portage/app-admin/update-conf
+    wget -O /usr/local/portage/app-admin/update-conf/update-conf-9999.ebuild https://raw.githubusercontent.com/Atha/update-conf.d/master/update-conf-9999.ebuild && (cd /usr/local/portage/app-admin/update-conf; ebuild update-conf-9999.ebuild digest)
 
 The update-conf.d script will then be available for installation via portage:
 
-    > emerge -a app-admin/update-conf
+    emerge -a app-admin/update-conf
 
 Usage
 -----
@@ -107,16 +108,16 @@ configuration file you want to process. *Examples:* fstab, hosts
 
   Copy it to a (newly created) *.d*'ed directory:
 
-        > cd /etc
-        > mkdir <conf>.d
-        > cp <conf> <conf>.d/00original
+        cd /etc
+        mkdir <conf>.d
+        cp <conf> <conf>.d/00original
 
   *Example:* If your ``<conf>`` is fstab, you will now have
   /etc/fstab.d/00original
 
 * **Add *.d*'ed directory to _/etc/update-conf.d.conf_**
 
-        > echo <conf> >> /etc/update-conf.d.conf
+        echo <conf> >> /etc/update-conf.d.conf
 
   You may use your favorite text editor to add/delete entries and manage
   */etc/update-conf.d.conf*.
@@ -127,11 +128,11 @@ configuration file you want to process. *Examples:* fstab, hosts
   digits** (^[0-9][0-9]), leave out *empty lines* and *comments ^[#]* and make
   a new */etc/``<conf>``* with  this information.
 
-        > update-conf.d <conf>
+        update-conf.d <conf>
 
   Example:
 
-        > update-conf.d fstab
+        update-conf.d fstab
 
 * **Configure snippets**
 
@@ -166,8 +167,8 @@ Concept
    * You can experiment with ``<conf>`` by changing it, which will only be
      temporary until you re-run *update-conf.d*.
    * You can easily disable a snippet by renaming it to not start with two
-     digets. The script will then ignore it and thus it will not be included in
-     */etc/*``<conf>`` when you run *update-conf.d*.
+     digets. The shell script will then ignore it and thus it will not be
+     included in */etc/*``<conf>`` when you run *update-conf.d*.
    * Applications or self written scripts cannot harm your ``<conf>`` file by
      destroying it (accidentally).
 3. Are there any **negative effects**?
@@ -182,7 +183,7 @@ Concept
      example is Debian's *libmount* (since around 2011, until 2015) which uses
      */etc/fstab.d*.
      As a sane precaution you should not create a *.d*-ed directory for this
-     script when there already is one!
+     shell script when there already is one!
 
 Versioning
 ----------
@@ -196,11 +197,11 @@ completeness and historical nostalgia. Don't use it.
 Adaptation
 ----------
 
-If you require such a script for a very specific task, you may want to modify
-it to what is needed for this very task. For that you may find the *simple*
-version of the update-conf.d script or even the *depricated update-fstab* script
-more convenient, since both are certainly simpler and easier to adapt than the
-*complex* version.
+If you require such a shell script for a very specific task, you may want to
+modify it to what is needed for this very task. For that you may find the
+*simple* version of the update-conf.d script or even the *depricated
+update-fstab* script more convenient, since both are certainly simpler and
+easier to adapt than the *complex* version.
 If you do consider modification to the *complex* version, be advised that the
 main function is ``update_confd ()``.
 
@@ -219,7 +220,7 @@ Copyright © 2011 Nicolas Bercher
 Copyright © 2010 truc (on improvements)  
 Copyright © 2008-2023 Atha
 
-This script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
+This shell script is released under the terms of the [GNU GENERAL PUBLIC LICENSE
 Version 2](http://www.gnu.org/licenses/gpl-2.0-standalone.html) or (at your
 option) any later version.
 It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.

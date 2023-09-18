@@ -1,9 +1,9 @@
 #!/bin/sh
 #
 # update-conf.d COMPLEX VERSION
-# Version 2013-09-15
+# Version 2023-09-18
 #
-# Script for flexible /etc/*.d configuration
+# Unix (POSIX compliant) shell script for flexible /etc/*.d configuration
 # Originally from Atha, with a lot of improvements from truc - thanks!
 # Generalized for /etc/*.d by Nicolas Bercher nbercher@yahoo.fr
 # Idea for the COMPLEX version and fixes by javeree
@@ -14,15 +14,15 @@
 #
 #
 # The included makefile assists easy installation:
-# "make clean" will clean previously built versions of this script.
+# "make clean" will clean previously built versions of this shell script.
 # "make complex install" will build and install it.
 # "make build install" builds and installs both versions.
 #
-# For installing, this script is copied into /usr/local/sbin and is called
-# update-conf.d (a symlink) for both the SIMPLE and the COMPLEX version. This
-# symlink will point to update-conf.d.complex. If needed, you may also install
-# the simple version (update-conf.d.simple) and make sure the symlink points
-# to the complex version.
+# For installing, this shell script is copied into /usr/local/sbin and is
+# called update-conf.d (a symlink) for both the SIMPLE and the COMPLEX version.
+# This symlink will point to update-conf.d.complex. If needed, you may also
+# install the simple version (update-conf.d.simple) and make sure the symlink
+# points to the complex version.
 # To install to any other location, e.g. /usr/sbin, edit the Makefile.
 #
 # You need to configure your <conf> entries in separate files in /etc/<conf>.d;
@@ -34,15 +34,15 @@
 #
 # Examples: /etc/fstab.d/01base or /etc/hosts.d/61nfs-dm8000. If one is renamed,
 # say to /etc/hosts.d/.61nfs-dm8000 or /etc/hosts.d/nfs-dm8000, it is ignored by
-# the script i.e. inactive.
+# the shell script i.e. inactive.
 #
 # Copyright 2013 javeree
 # Copyright 2011 Nicolas Bercher
 # Copyright 2010 truc (on improvements)
-# Copyright 2008-2013 Atha
+# Copyright 2008-2023 Atha
 # Distributed under the terms of the GNU General Public License v2 or later
 #
-# The home of this script is https://github.com/Atha/update-conf.d
+# The home of this shell script is https://github.com/Atha/update-conf.d
 # It first appeared at http://forums.gentoo.org/viewtopic.php?p=6364143
 #
 
@@ -106,13 +106,15 @@ scriptconf_checksilent () {
 scriptconf_check () {
   if ! scriptconf_checksilent ; then
     warning "${scriptname}: script configuration file '${scriptconf}' not found!"
+    warning
+    warning "To create "
     exit 1
   fi
   return 0
 }
 
 print_version () {
-  warning "update-conf.d COMPLEX version 2013-09-15"
+  warning "update-conf.d COMPLEX version 2023-09-18"
   warning
   return 0
 }
@@ -170,10 +172,10 @@ scriptconf_list () {
 ## option -s (set): add $1 (argument to this function)
 scriptconf_add () {
   if scriptconf_checksilent && scriptconf_findsilent ${1} ; then
-    return 1
-  else
-    echo ${1} >> "${scriptconf}"
-    message "${scriptname}: Item added to list of valid entries: ${1}"
+    message "${scriptname}: Configuration file '${scriptconf}' did not yet exist..."
+  fi
+  echo ${1} >> "${scriptconf}"
+  message "${scriptname}: Item added to list of valid entries: ${1}"
   fi
   return 0
 }
