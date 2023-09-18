@@ -176,7 +176,6 @@ scriptconf_add () {
   fi
   echo ${1} >> "${scriptconf}"
   message "${scriptname}: Item added to list of valid entries: ${1}"
-  fi
   return 0
 }
 
