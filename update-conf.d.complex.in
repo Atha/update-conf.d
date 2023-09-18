@@ -106,8 +106,7 @@ scriptconf_checksilent () {
 scriptconf_check () {
   if ! scriptconf_checksilent ; then
     warning "${scriptname}: script configuration file '${scriptconf}' not found!"
-    warning
-    warning "To create "
+    warning "Running \"${scriptname} -s <conf>\" will automatically create it, adding <conf> as a valid entry."
     exit 1
   fi
   return 0
