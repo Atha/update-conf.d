@@ -1,10 +1,10 @@
 # $Header$
 
-EAPI=4
-inherit git-2
+EAPI=7
+inherit git-r3
 
 DESCRIPTION="script for flexible /etc/<conf>.d configuration"
-HOMEPAGE="http://forums.gentoo.org/viewtopic.php?p=6364143"
+HOMEPAGE="https://forums.gentoo.org/viewtopic.php?p=6364143"
 EGIT_REPO_URI="git://github.com/Atha/${PN}.d"
 
 LICENSE="GPL-2"
@@ -18,6 +18,8 @@ DEPEND="${RDEPEND}"
 DOCS="README USAGE"
 
 src_prepare() {
+        default
+
         echo "patching the makefile with s:^PREFIX=:PREFIX=${D}: (required to prevent make to write outside the sandbox)"
         sed -i "s:^PREFIX=:PREFIX=${D}:" Makefile
         echo "patching the configuration to ensure it looks in /etc instead of in the sandbox"
@@ -28,12 +30,12 @@ src_prepare() {
 }
 
 src_configure() {
-	emake clean
-	if use simple ; then
-	    emake simple
-	else # default to complex version
-	    emake complex
-	fi
+        emake clean
+        if use simple ; then
+            emake simple
+        else # default to complex version
+            emake complex
+        fi
 }
 
 src_compile() {
